@@ -1,4 +1,4 @@
-package org.rascalmpl.library.experiments.scm;
+package experiments.scm;
 
 
 import org.eclipse.imp.pdb.facts.IConstructor;

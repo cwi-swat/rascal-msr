@@ -344,8 +344,8 @@ public list[ChangeSet] getBetweenTags(CheckoutUnit from, CheckoutUnit to) {
     int cntr=0;
     list[ChangeSet] changesets = [];
     
-    start = startTimer();
-    print("started <from> to <to> at <start>");
+    startMeUp = startTimer();
+    print("started <from> to <to> at <startMeUp>");
     
     //changesets = getChangesets(gitRepo);
     getChangesets(gitRepo, ChangeSet (ChangeSet cs) { 
@@ -458,8 +458,8 @@ public set[RevisionId] getParentsRevisionIds(set[RevisionId] childIds,
 }
 
 public rel[RevisionId child, RevisionId parents] solveParentsRevisionIds(rel[RevisionId child, RevisionId parents] childParents, RevisionId child) {
-    start = startTimer();
-    print("started at <start>");
+    startMeUp = startTimer();
+    print("started at <startMeUp>");
     r = domainR(childParents, {child});
     //int maxSize = 0;
     //int i = 0;
@@ -535,8 +535,8 @@ public set[RevisionId] resultedIn(RevisionId commit,
 }
 
 public list[ChangeSet] timeLinuxKernel() {
-    start = startTimer();
-    print("started at <start>");
+    startMeUp = startTimer();
+    print("started at <startMeUp>");
     
     changesets = getLinuxKernel();
     
@@ -614,7 +614,7 @@ public list[ChangeSet] getLinuxKernel() {
 }
 
 public list[ChangeSet] readLinuxKernel(str directory, str prefix, 
-	Tag start, Tag end) {
+	Tag startMeUp, Tag end) {
     list[ChangeSet] changesets = [];
     print("started at <startTimer()>");
     
@@ -623,7 +623,7 @@ public list[ChangeSet] readLinuxKernel(str directory, str prefix,
     int startIndex = 0;
     int endIndex = max(indexCounter);
     for (i <- indexCounter) {
-	if (start in index[i]) {
+	if (startMeUp in index[i]) {
 	    startIndex = i;
 	} else if (end in index[i]) {
 	    endIndex = i;
@@ -648,8 +648,8 @@ public list[ChangeSet] readAndComposeLinuxKernel() {
     
     list[ChangeSet] changesets = [];
     
-    start = startTimer();
-    print("started at <start>");
+    startMeUp = startTimer();
+    print("started at <startMeUp>");
     
     changesets += readLinxKernel(10000);
     changesets += readLinxKernel(20000);
@@ -672,8 +672,8 @@ public list[ChangeSet] writeLinuxKernel() {
 }
 
 public tuple[list[ChangeSet],list[ChangeSet], list[ChangeSet]] readLinuxKernel() {
-    start = startTimer();
-    print("<start>) Reading till 15");
+    startMeUp = startTimer();
+    print("<startMeUp>) Reading till 15");
     
     changes15 = readBinaryValueFile(#(list[ChangeSet]), 
 	    |file:///export/scratch1/shabazi/logs/linuxHistoryTill.15.bin|);
@@ -737,24 +737,24 @@ public map[Tag symname, real changes] calculateMetrics(map[Tag symname,
 	changes = changesets[t];
 	int s = size(changes);
 	
-	datetime start = getOneFrom(changes).committer.date;
-	datetime end = start;
+	datetime startMeUp = getOneFrom(changes).committer.date;
+	datetime end = startMeUp;
 	
 	for (cs <- changes) {
-	    if (cs.committer.date < start) {
-		start = cs.committer.date;
+	    if (cs.committer.date < startMeUp) {
+		startMeUp = cs.committer.date;
 	    }
 	    if (cs.committer.date > end) {
 		end = cs.committer.date;
 	    }
 	}
-	//real days = daysDiff(start, end) + 0.0; //otherwise the avg calculation will result in an int.
-	//duration dur = createDuration(start, end);
+	//real days = daysDiff(startMeUp, end) + 0.0; //otherwise the avg calculation will result in an int.
+	//duration dur = createDuration(startMeUp, end);
 
 	//otherwise the avg calculation will result in an int.
-	real hours = hoursDiff(start, end) + 0.0;
+	real hours = hoursDiff(startMeUp, end) + 0.0;
 	print("<t> has <s> changes in <hours> hours");
-	print("\t from <start> untill <end> average of <s/hours> changes");
+	print("\t from <startMeUp> untill <end> average of <s/hours> changes");
     }
     
     return ();
@@ -796,7 +796,7 @@ public map[Tag symname, list[ChangeSet] changeset]
 }
 
 public list[ChangeSet] visitTags(list[ChangeSet] changesets) {
-    start = startTimer();
+    startMeUp = startTimer();
     changedSets = visit(changesets) {case label(/tag: <name:.*>/) 
 	    => label(name)}
     end = stopTimer();

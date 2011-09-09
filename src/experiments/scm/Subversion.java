@@ -1,4 +1,4 @@
-package org.rascalmpl.library.experiments;
+package experiments;
 
 import java.io.ByteArrayOutputStream;
 import java.net.URI;

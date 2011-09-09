@@ -1,4 +1,4 @@
-package org.rascalmpl.library.experiments.scm;
+package experiments.scm;
 
 public interface ScmEntryChangeKind {
 	

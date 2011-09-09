@@ -1,4 +1,4 @@
-package org.rascalmpl.library.experiments.scm;
+package experiments.scm;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -24,15 +24,15 @@ import org.eclipse.imp.pdb.facts.IString;
 import org.eclipse.imp.pdb.facts.IValue;
 import org.eclipse.imp.pdb.facts.IValueFactory;
 import org.rascalmpl.interpreter.result.RascalFunction;
-import org.rascalmpl.library.experiments.scm.ScmTypes.ChangeSet;
-import org.rascalmpl.library.experiments.scm.ScmTypes.Info;
-import org.rascalmpl.library.experiments.scm.ScmTypes.Repository;
-import org.rascalmpl.library.experiments.scm.ScmTypes.Resource;
-import org.rascalmpl.library.experiments.scm.ScmTypes.Revision;
-import org.rascalmpl.library.experiments.scm.ScmTypes.WcResource;
-import org.rascalmpl.library.experiments.scm.cvs.CvsProvider;
-import org.rascalmpl.library.experiments.scm.git.GitProvider;
-import org.rascalmpl.library.experiments.scm.svn.SvnProvider;
+import experiments.scm.ScmTypes.ChangeSet;
+import experiments.scm.ScmTypes.Info;
+import experiments.scm.ScmTypes.Repository;
+import experiments.scm.ScmTypes.Resource;
+import experiments.scm.ScmTypes.Revision;
+import experiments.scm.ScmTypes.WcResource;
+import experiments.scm.cvs.CvsProvider;
+import experiments.scm.git.GitProvider;
+import experiments.scm.svn.SvnProvider;
 
 public class Scm {
 	
@@ -93,7 +93,7 @@ public class Scm {
     	}
     }
     
-    public static IList getChangesets(IConstructor repository) {
+    public  IList getChangesets(IConstructor repository) {
     	if (!(repository.getType().isSubtypeOf(ScmTypes.AbstractDataType.REPOSITORY.getType()))) {
 			throw new IllegalArgumentException("configuration should be of the type REPOSITORY");
 		}
@@ -110,17 +110,17 @@ public class Scm {
     	return writer.done();
     }
     
-    public static ISet mergeRevisions(ISet resources) {
+    public  ISet mergeRevisions(ISet resources) {
     	
     	
     	return null;
     }
     
-    public static ISet buildResourceTree(ISet resourceFiles) {
+    public  ISet buildResourceTree(ISet resourceFiles) {
     	return buildResourceTree(resourceFiles, ScmTypes.VF.map(ScmTypes.TF.sourceLocationType(), ScmTypes.Resource.getAbstractType()));
     }
     
-	public static ISet buildResourceTree(ISet resourceFiles, IMap resourceDirs) {
+	public  ISet buildResourceTree(ISet resourceFiles, IMap resourceDirs) {
 		Map<String, Set<IConstructor>> directoryFiles = new HashMap<String, Set<IConstructor>>();
 		
 		for (IValue iValue : resourceFiles) {
@@ -211,7 +211,7 @@ public class Scm {
 	 * A/C/D	-> 	A/C/D/k.txt
 	 * B		->	B/help.txt
 	 */
-	private static IConstructor buildResourceTree(String root, IMap resourceDirs,
+	private  IConstructor buildResourceTree(String root, IMap resourceDirs,
 			Map<String, Set<IConstructor>> directoryFiles, Map<String, Set<String>> subDirectories) {
 		
 		ISetWriter rootResources = ScmTypes.VF.setWriter(ScmTypes.AbstractDataType.RESOURCE.getType());
@@ -242,7 +242,7 @@ public class Scm {
 		return content.size() > 0 ? Resource.FOLDER_CONTENT.make(rootLocation, content) : Resource.FOLDER.make(rootLocation);
 	}
 
-    public static String encodePath(String path) {
+    public  String encodePath(String path) {
     	if (path.indexOf('{') >= 0 || path.indexOf('}') >= 0 || path.indexOf(' ') >= 0) {
 			StringBuilder builder = new StringBuilder();
 			for (int i = 0; i < path.length(); i++) {
@@ -273,19 +273,19 @@ public class Scm {
      * @param filePath not starting with a / or \
      * @return the full path to the file as an ISourceLocation
      */
-    public static ISourceLocation createResourceId(String workspace, String filePath) {
+    public  ISourceLocation createResourceId(String workspace, String filePath) {
     	return ScmTypes.VF.sourceLocation(workspace + "/" + Scm.encodePath(filePath));
     }
 
-    public static IBool isDirectory(ISourceLocation location) {
+    public  IBool isDirectory(ISourceLocation location) {
     	return ScmTypes.VF.bool(new File(location.getURI().getPath()).isDirectory());
     }
 
-    public static IList listFilesAndDirs(ISourceLocation directory) {
+    public  IList listFilesAndDirs(ISourceLocation directory) {
     	return listFilesAndDirs(directory, (FileFilter) null);
     }
     
-    public static IList listFiles(ISourceLocation directory) {
+    public  IList listFiles(ISourceLocation directory) {
     	return listFilesAndDirs(directory, new FileFilter() {
 			public boolean accept(File pathname) {
 				return pathname.isFile();
@@ -293,7 +293,7 @@ public class Scm {
 		});
     }
     
-    public static IList listDirs(ISourceLocation directory) {
+    public  IList listDirs(ISourceLocation directory) {
     	return listFilesAndDirs(directory, new FileFilter() {
 			public boolean accept(File pathname) {
 				return pathname.isDirectory();
@@ -301,7 +301,7 @@ public class Scm {
 		});
     }
     
-    public static IList listFiles(ISourceLocation directory, IString filterRegex) {
+    public  IList listFiles(ISourceLocation directory, IString filterRegex) {
     	
     	final String regex = filterRegex.getValue();
     	FileFilter fileFilter = new FileFilter() {
@@ -316,7 +316,7 @@ public class Scm {
     	return listFilesAndDirs(directory, fileFilter);
     }
     
-    public static IList listDirs(ISourceLocation directory, IString filterRegex) {
+    public  IList listDirs(ISourceLocation directory, IString filterRegex) {
     	
     	final String regex = filterRegex.getValue();
     	FileFilter fileFilter = new FileFilter() {
@@ -334,7 +334,7 @@ public class Scm {
      * @param filter if null, no filter will be used
      * @return the list of direct subfiles and subdirs of the given path.
      */
-    private static IList listFilesAndDirs(ISourceLocation directory, FileFilter filter) {
+    private  IList listFilesAndDirs(ISourceLocation directory, FileFilter filter) {
     	IListWriter writer = ScmTypes.VF.listWriter(ScmTypes.TF.sourceLocationType());
     	String path = directory.getURI().getPath();
     	File dir = new File(path);
@@ -351,7 +351,7 @@ public class Scm {
     	return writer.done();
     }
     
-    public static IMap linesCount(ISet locations) throws ScmProviderException {
+    public  IMap linesCount(ISet locations) throws ScmProviderException {
     	IMapWriter results = ScmTypes.VF.mapWriter(Resource.getAbstractType(), ScmTypes.TF.integerType());
     	
     	for (IValue iValue : locations) {

@@ -20,20 +20,20 @@ data Tag 	= label(str name) | branch(str name);
 
 anno set[Tag] Revision@tags;
 
-@javaClass{org.rascalmpl.library.experiments.scm.Scm}
+@javaClass{experiments.scm.Scm}
 public java list[ChangeSet]  getChangesets(Repository repository);
 
-@javaClass{org.rascalmpl.library.experiments.scm.Scm}
+@javaClass{experiments.scm.Scm}
 public java void getChangesets(Repository repository, ChangeSet (ChangeSet) callBack);
 
-@javaClass{org.rascalmpl.library.experiments.scm.Scm}
+@javaClass{experiments.scm.Scm}
 public java void checkoutResources(CheckoutUnit unit, Repository repository);
 
-@javaClass{org.rascalmpl.library.experiments.scm.Scm}
+@javaClass{experiments.scm.Scm}
 public java set[WcResource] getResources(Repository repository);
 
-@javaClass{org.rascalmpl.library.experiments.scm.Scm}
+@javaClass{experiments.scm.Scm}
 public java map[Resource, int] linesCount(set[Resource] files);
 
-@javaClass{org.rascalmpl.library.experiments.scm.Scm}
+@javaClass{experiments.scm.Scm}
 public java set[Resource] buildResourceTree(set[Resource] files);

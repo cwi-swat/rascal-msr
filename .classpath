@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/Users/migod/Documents/workspace/org.eclipse.imp.pdb.values/bin"/>
+	<classpathentry kind="lib" path="lib/javagit.jar"/>
+	<classpathentry kind="lib" path="lib/org-netbeans-lib-cvsclient-RELEASE61.jar"/>
+	<classpathentry kind="lib" path="lib/svnkit.jar"/>
+	<classpathentry kind="lib" path="lib/trilead.jar"/>
+	<classpathentry kind="lib" path="/Users/migod/Documents/workspace/rascal/src"/>
+	<classpathentry kind="lib" path="/Users/migod/Documents/workspace/rascal/lib/joda-time-1.6.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
