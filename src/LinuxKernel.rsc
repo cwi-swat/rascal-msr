@@ -388,18 +388,18 @@ public map[loc file, int lines] submap(map[Resource file, int lines] fileLines, 
 public map[Tag version, int days] calcDevDays(map[RevisionId, ChangeSet] revChangesets, rel[Tag version, RevisionId revision] versionRevisions) {
 	map[Tag symname, int days] results = ();
 	for (t <- domain(versionRevisions)) {
-		datetime start = getOneFrom(range(revChangesets)).committer.date;
-		datetime end = start;
+		datetime startMeUp = getOneFrom(range(revChangesets)).committer.date;
+		datetime end = startMeUp;
 		for (rev <- versionRevisions[t]) {
 			d = revChangesets[rev].committer.date;
-			if (start > d) {
-				start = d;
+			if (startMeUp > d) {
+				startMeUp = d;
 			}
 			if (end < d) {
 				end = d;
 			}
 		}
-		results[t] = daysDiff(start, end);
+		results[t] = daysDiff(startMeUp, end);
 	}
 	return results;
 }
@@ -414,7 +414,7 @@ public void printCalcDevDays(map[Tag version, int days] devDays, list[Tag] versi
 	}
 }
 
-public list[ChangeSet] readLinuxKernel(str directory, str prefix, Tag start, Tag end) {
+public list[ChangeSet] readLinuxKernel(str directory, str prefix, Tag startMeUp, Tag end) {
 	list[ChangeSet] changesets = [];
 	print("started at <startTimer()>");
 	
@@ -423,7 +423,7 @@ public list[ChangeSet] readLinuxKernel(str directory, str prefix, Tag start, Tag
 	int startIndex = 0;
 	int endIndex = max(indexCounter);
 	for (i <- indexCounter) {
-		if (start in index[i]) {
+		if (startMeUp in index[i]) {
 			startIndex = i;
 		} else if (end in index[i]) {
 			endIndex = i;
