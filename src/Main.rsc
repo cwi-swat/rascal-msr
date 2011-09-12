@@ -148,34 +148,32 @@ public void statsFive(rel[Tag version, ChangeSet cs] versionChangesets,
 
 public void main() {
     Repository gitRepo = git(fs("/export/scratch1/shabazi/linux-2.6"), "", 
-	    {fileDetails(), mergeDetails(), 
-	    startUnit(cunit(label("v2.6.12"))), 
+	    {fileDetails(), mergeDetails(), startUnit(cunit(label("v2.6.12"))), 
 	    endUnit(cunit(label("v2.6.21")))});
     list[ChangeSet] changesets = getChangesets(gitRepo);
     
     childParents = {<cs.revision.id, m.parent.id> | 
-	cs <-changesets, revision(_, _) := cs.revision, 
-	m <- (cs.revision@mergeDetails ? {mergeParent(cs.revision.parent)})};
+	    cs <-changesets, revision(_, _) := cs.revision, 
+	    m<-(cs.revision@mergeDetails ? {mergeParent(cs.revision.parent)})};
     releases = [label("v2.6.<i>") | i <- [12..21]];
     map[Tag version, ChangeSet changeset] tagChangesets 
-	= (t : cs | cs <- changesets, t <- (cs.revision@tags ? {}));
+	    = (t : cs | cs <- changesets, t <- (cs.revision@tags ? {}));
     map[RevisionId, ChangeSet] revChangesets 
-	= (cs.revision.id : cs |cs <- changesets); 
+	    = (cs.revision.id : cs |cs <- changesets); 
     rel[Tag version, RevisionId revId] versionRevisions 
-	= getVersionRevisions(tagChangesets, releases, childParents); 
+	    = getVersionRevisions(tagChangesets, releases, childParents); 
 	//duration 233242 ms
     versionRevisions = getUniqueRevisions(versionRevisions, releases);
     rel[Tag version, ChangeSet revId] versionChangesets 
-	= versionRevisions o toRel(revChangesets);
+	    = versionRevisions o toRel(revChangesets);
     
     rel[Tag version, ChangeSet cs] versionNoMergesChangesets 
-	= {<version, cs> | 
-	    version <- versionChangesets.version, 
+	    = {<version, cs> | version <- versionChangesets.version, 
 	    cs <- versionChangesets[version], 
 	    "mergeDetails" notin getAnnotations(cs.revision)};
     
     rel[Tag version, Info auth, ChangeSet cs] input 
-	= {<version, cs@author, cs> | 
+	    = {<version, cs@author, cs> | 
 	    version <- versionNoMergesChangesets.version, 
 	    cs <- versionNoMergesChangesets[version]};
 
@@ -225,7 +223,7 @@ public list[ChangeSet] mergeDetailsTest() {
     return changesets;
 }
 
-public void findTheCommonChild(rel[RevisionId, RevisionId] childParents, 
+public void findTheCommonChild (rel[RevisionId, RevisionId] childParents, 
 	set[RevisionId] v15diff, set[RevisionId] missing) {
 	// solve(r) {
 	//}
@@ -763,9 +761,8 @@ public map[Tag symname, real changes] calculateMetrics(map[Tag symname,
 }
 
 
-public map[Tag symname, list[ChangeSet] changeset] 
-	calculateMetrics(list[Tag] tagsToProcess, 
-	map[Tag, ChangeSet] tagChangesets, 
+public map[Tag symname, list[ChangeSet] changeset] calculateMetrics
+	(list[Tag] tagsToProcess, map[Tag, ChangeSet] tagChangesets, 
 	list[datetime] datesOfChangeSetsSorted,
 	rel[datetime, ChangeSet] datesAndChangeSets) {
     bool first = true;

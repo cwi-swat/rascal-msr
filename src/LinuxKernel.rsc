@@ -187,39 +187,50 @@ public rel[str company, ChangeSet cs] getCompanyChangesets(rel[str company,
     }
 }
 
-public rel[Tag version, str action, str devverName, str email, ChangeSet cs] calcDevelopers(
-	rel[Tag version, ChangeSet changeset] versionChangesets, bool parseCsMessage) {
+public rel[Tag version, str action, str devverName, 
+       str email, ChangeSet cs] calcDevelopers(rel[Tag version, 
+	       ChangeSet changeset] versionChangesets, bool parseCsMessage) {
 		
-	print("started at <startTimer()>");
-	rel[Tag version, str action, str devverName, str email, ChangeSet cs] results = {};
-	for (version <- versionChangesets.version) {
-		results += calcDevelopers(version, "Author", {<cs@author, cs>| cs <- versionChangesets[version]}, parseCsMessage);
-		results += calcDevelopers(version, "Committer", {<cs.committer, cs>| cs <- versionChangesets[version]}, parseCsMessage);
-	}
-	print("duration <stopTimer()> ms");
-	return results;
+    print("started at <startTimer()>");
+    rel[Tag version, str action, str devverName, str email, ChangeSet cs] 
+	results = {};
+    for (version <- versionChangesets.version) {
+	results += calcDevelopers(version, "Author", {<cs@author, cs>| 
+		cs <- versionChangesets[version]}, parseCsMessage);
+	results += calcDevelopers(version, "Committer", {<cs.committer, cs>| 
+		cs <- versionChangesets[version]}, parseCsMessage);
+    }
+    print("duration <stopTimer()> ms");
+    return results;
 }
 
-public rel[Tag version, str action, str devverName, str email, ChangeSet cs] calcDevelopers(Tag version, str action, 
+public rel[Tag version, str action, str devverName, str email, ChangeSet cs] 
+	calcDevelopers(Tag version, str action, 
 	rel[Info info, ChangeSet cs] devvers, bool parseCsMessage) {
-	rel[Tag version, str action, str devverName, str email, ChangeSet cs] results = {};
-	int malformed = 0;
 
-	for (Info info <- devvers.info) {
-		str msg = (parseCsMessage ? (info.message ? "") : "") + " " + action + "-by: " + info.name;
-		for (/\s*<action:[^\s]*>-by:\s*<name:.*>/ := msg) {
-			if (/\s*"?<fname:[^\<"]+>"?\s\<<mail:[^\>]+>\>/ := name) {
-				results += {<version, action, fname, toLowerCase(mail), cs> | cs <- devvers[info]};
-			} else if (/\<<mail:[^\>]+>\>/ := name){
-				results += {<version, action, "", toLowerCase(mail), cs> | cs <- devvers[info]};
-			} else {
-				results += {<version, action, name, "", cs> | cs <- devvers[info]};
-				malformed +=1;
-			}
-		}
+    rel[Tag version, str action, str devverName, str email, ChangeSet cs] 
+	results = {};
+    int malformed = 0;
+
+    for (Info info <- devvers.info) {
+	str msg = (parseCsMessage ? (info.message ? "") : "") + " " 
+		+ action + "-by: " + info.name;
+	for (/\s*<action:[^\s]*>-by:\s*<name:.*>/ := msg) {
+	    if (/\s*"?<fname:[^\<"]+>"?\s\<<mail:[^\>]+>\>/ := name) {
+		results += {<version, action, fname, toLowerCase(mail), cs> | 
+			cs <- devvers[info]};
+	    } else if (/\<<mail:[^\>]+>\>/ := name){
+		results += {<version, action, "", toLowerCase(mail), cs> | 
+			cs <- devvers[info]};
+	    } else {
+		results += {<version, action, name, "", cs> | 
+			cs <- devvers[info]};
+		malformed +=1;
+	    }
 	}
-	print("<version> - <action> - <size(devvers)> - <size(results)> - malformed: <malformed>");
-	return results;
+    }
+    print("<version> - <action> - <size(devvers)> - <size(results)> - malformed: <malformed>");
+    return results;
 }
 
 /**
@@ -228,238 +239,272 @@ public rel[Tag version, str action, str devverName, str email, ChangeSet cs] cal
 *	other tuples: <Linus Torvalds, linux@linux.com> and <Torvalds, linux@linux.com>, then the resulted set will have the 
 *	additional tuple: <Torvalds, linus@linux.com>.
 */
-public rel[str name, str email] solveBrokenRelations(rel[str name, str email] input) {
-	r = input;
-	solve(r) {
-		r = r o invert(r) o r;
-	}
-	return r;
+public rel[str name, str email] solveBrokenRelations(rel[str name, str email] 
+	input) {
+    r = input;
+    solve(r) {
+	r = r o invert(r) o r;
+    }
+    return r;
 }
 
 
-public map[set[str name] user, set[ChangeSet] cs] getUserChangeSets(rel[str devverName, str email, ChangeSet cs] input) {
-	rel[str name, str email] devMail = {<user, mail> | user <- domain(input), user != "", mail <- input[user]<0>, mail != ""};
-	rel[str name, ChangeSet cs] userCs = input<0,2>;
-	rel[str email, ChangeSet cs] mailCs = input<1,2>;
-	
-	devMail = solveBrokenRelations(devMail);
-	mailDev = devMail<1,0>;
-	map[str mail, set[str] userNames] mailUserNames = (email : mailDev[email] | email <- range(devMail));
-	map[set[str] userNames, set[str] mailAdresses] users = invert(mailUserNames);
-	
-	return (userNames : domainR(userCs, userNames)<1> + domainR(mailCs, users[userNames])<1> | set[str] userNames <- users.userNames);
+public map[set[str name] user, set[ChangeSet] cs] 
+	getUserChangeSets(rel[str devverName, str email, ChangeSet cs] input) {
 
+    rel[str name, str email] devMail = {<user, mail> | user <- domain(input), 
+	    user != "", mail <- input[user]<0>, mail != ""};
+    rel[str name, ChangeSet cs] userCs = input<0,2>;
+    rel[str email, ChangeSet cs] mailCs = input<1,2>;
+    
+    devMail = solveBrokenRelations(devMail);
+    mailDev = devMail<1,0>;
+    map[str mail, set[str] userNames] mailUserNames = (email : mailDev[email] |
+	    email <- range(devMail));
+    map[set[str] userNames, set[str] mailAdresses] users = 
+	    invert(mailUserNames);
+    
+    return (userNames : domainR(userCs, userNames)<1> 
+	    + domainR(mailCs, users[userNames])<1> | 
+	    set[str] userNames <- users.userNames);
 }
 
 /**
 * Revisions per release version.
 */
-public rel[Tag version, RevisionId revision] getVersionRevisions(map[Tag version, ChangeSet changeset] tagChangesets, list[Tag] versions,
+public rel[Tag version, RevisionId revision] 
+	getVersionRevisions(map[Tag version, ChangeSet changeset] 
+	tagChangesets, list[Tag] versions, 
 	rel[RevisionId child, RevisionId parent] childParents) {
-	print("started at <startTimer()>");
-	rel[Tag version, RevisionId revision] results = {};
-	for (version <- versions, version in tagChangesets) {
-		set[RevisionId] reachable = reach(childParents, {tagChangesets[version].revision.id});
-		results += {<version, reaching> | reaching <- reachable};
-		print("<version> has <size(results[version])> changesets");
-	}
-	print("duration <stopTimer()> ms");
-	return results;
+
+    print("started at <startTimer()>");
+    rel[Tag version, RevisionId revision] results = {};
+    for (version <- versions, version in tagChangesets) {
+	set[RevisionId] reachable = reach(childParents, 
+		{tagChangesets[version].revision.id});
+	results += {<version, reaching> | reaching <- reachable};
+	print("<version> has <size(results[version])> changesets");
+    }
+    print("duration <stopTimer()> ms");
+    return results;
 }
+
 /**
 * Makes sure that a revisionId is only referenced by one version. So if revision A is part of release 12 and 13, release 13 will
 * no longer reference to it in the returned relation.
 */
-public rel[Tag version, RevisionId revision] getUniqueRevisions(rel[Tag version, RevisionId revision] versionRevisions, list[Tag] versions) {
-	rel[Tag version, RevisionId revision] results = {};
-		
-	if (size(versions) > 0) {
-		results += {<versions[0], rev> | rev <- versionRevisions[versions[0]]};
-		for (i <- [1 .. size(versions)-1]) {
-			set[RevisionId] revs = versionRevisions[versions[i]] - versionRevisions[versions[i-1]];
-			Tag version = versions[i];
-			results += {<version, rev> | rev <- revs};
-		}
+public rel[Tag version, RevisionId revision] getUniqueRevisions(
+	rel[Tag version, RevisionId revision] versionRevisions, 
+	list[Tag] versions) {
+
+    rel[Tag version, RevisionId revision] results = {};
+	    
+    if (size(versions) > 0) {
+	results += {<versions[0], rev> | rev <- versionRevisions[versions[0]]};
+	for (i <- [1 .. size(versions)-1]) {
+	    set[RevisionId] revs = versionRevisions[versions[i]] 
+		    - versionRevisions[versions[i-1]];
+	    Tag version = versions[i];
+	    results += {<version, rev> | rev <- revs};
 	}
-	return results;
+    }
+    return results;
 }
 
-public map[Tag version, int revisions] countVersionRevisions(rel[Tag version, RevisionId revision] versionRevisions) {
-	map[Tag version, int revisions] results = (); 
-	for(Tag version <- versionRevisions.version) {
-		results[version] = size(versionRevisions[version]);
-	}
-	return results;
+public map[Tag version, int revisions] countVersionRevisions(rel[Tag version, 
+	RevisionId revision] versionRevisions) {
+
+    map[Tag version, int revisions] results = (); 
+    for(Tag version <- versionRevisions.version) {
+	results[version] = size(versionRevisions[version]);
+    }
+    return results;
 }
 
 /**
 * Development time per release.
 */
-public map[Tag version, int days] calcDevDays(map[Tag version, ChangeSet changeset] tagChangesets, list[Tag] versions) {
-	map[Tag symname, int days] results = ();
-	for (i <- [1 .. size(versions)-1]) {
-		prev = versions[i-1];
-		current = versions[i];
-		
-		results[current] = daysDiff(tagChangesets[prev].committer.date, tagChangesets[current].committer.date);
-	}
-	return results;
+public map[Tag version, int days] calcDevDays(map[Tag version, 
+	ChangeSet changeset] tagChangesets, list[Tag] versions) {
+    map[Tag symname, int days] results = ();
+    for (i <- [1 .. size(versions)-1]) {
+	prev = versions[i-1];
+	current = versions[i];
+	
+	results[current] = daysDiff(tagChangesets[prev].committer.date, 
+		tagChangesets[current].committer.date);
+    }
+    return results;
 }
 
 
 public int sum(list[int] numbers) {
-	int total = 0;
-	for (number <- numbers) {
-		total += number;
-	}
-	return total;
+    int total = 0;
+    for (number <- numbers) {
+	total += number;
+    }
+    return total;
 }
 
 
 
-public void printStatistics(map[Tag version, ChangeSet changeset] tagChangesets, list[Tag] versions, list[ChangeSet] changesets) {
-	print ("Frequency of kernel releases");
-	freqReleases = calcDevDays(tagChangesets, versions);
-	for (version <- versions, version in freqReleases) {
-		print("<version> - <freqReleases[version]>");
-	}
+public void printStatistics(map[Tag version, ChangeSet changeset] 
+	tagChangesets, list[Tag] versions, list[ChangeSet] changesets) {
+
+    print ("Frequency of kernel releases");
+    freqReleases = calcDevDays(tagChangesets, versions);
+    for (version <- versions, version in freqReleases) {
+	print("<version> - <freqReleases[version]>");
+    }
 }
 
-public void printLinesStatistics(map[Tag version, map[Resource file, int lines] fileLines] versionFileLines, list[Tag] versions) {
-	for (version <- versions, version in versionFileLines) {
-		map[Resource file, int lines] lines = versionFileLines[version];
-		print("<version.name> - <size(domain(lines))> files - <countTotalLines(lines)> lines");
-	}
+public void printLinesStatistics(map[Tag version, map[Resource file, 
+	int lines] fileLines] versionFileLines, list[Tag] versions) {
+
+    for (version <- versions, version in versionFileLines) {
+	map[Resource file, int lines] lines = versionFileLines[version];
+	print("<version.name> - <size(domain(lines))> files - <countTotalLines(lines)> lines");
+    }
 }
 
-public map[Tag, rel[str cat, Resource file]] getKernelSize(map[Tag version, map[Resource file, int lines] fileLines] versionFileLines, 
-	rel[str cat, str dir] categories, list[Tag] versions) {
-	map[Tag, rel[str cat, Resource file]] results = ();
-	
-	for (version <- versions, version in versionFileLines) {
-		results[version] = kernelSizeByCategory(versionFileLines[version], categories);
-		print("<version.name> - <size(range(results[version]))> files");
-	}
-	
-	return results;
+public map[Tag, rel[str cat, Resource file]] getKernelSize(map[Tag version,
+	map[Resource file, int lines] fileLines] versionFileLines, 
+
+    rel[str cat, str dir] categories, list[Tag] versions) {
+    map[Tag, rel[str cat, Resource file]] results = ();
+    
+    for (version <- versions, version in versionFileLines) {
+	results[version] = kernelSizeByCategory(versionFileLines[version], categories);
+	print("<version.name> - <size(range(results[version]))> files");
+    }
+    
+    return results;
 }
 
 
 
-public map[Tag version, map[Resource file, int lines] fileLines] getLinesOfFiles(Repository repo, list[Tag] versions) {
-	print("started at <startTimer()>");
-	map[Tag version, map[Resource file, int lines] fileLines] results = ();
-	for (version <- versions) {
-		results[version] = getLinesOfFiles(repo, version);
-		print("<version.name> - <size(domain(results[version]))> files");
-	}
-	print("duration <stopTimer()> ms");
-	return results;
+public map[Tag version, map[Resource file, int lines] fileLines]
+	getLinesOfFiles(Repository repo, list[Tag] versions) {
+
+    print("started at <startTimer()>");
+    map[Tag version, map[Resource file, int lines] fileLines] results = ();
+    for (version <- versions) {
+	results[version] = getLinesOfFiles(repo, version);
+	print("<version.name> - <size(domain(results[version]))> files");
+    }
+    print("duration <stopTimer()> ms");
+    return results;
 }
 
-public map[Resource file, int lines] getLinesOfFiles(Repository repo, Tag version) {
-	checkoutResources(cunit(version), repo);
-	wcResources = getResources(repo);
-	return linesCount(wcResources.resources);	
+public map[Resource file, int lines] getLinesOfFiles(Repository repo, 
+	Tag version) {
+
+    checkoutResources(cunit(version), repo);
+    wcResources = getResources(repo);
+    return linesCount(wcResources.resources);	
 }
 
 public int countTotalLines( map[Resource file, int lines] fileLines) {
-	int total = 0;
-	for (f <- domain(fileLines)) {
-		total += fileLines[f];
-	}
-	return total;
+    int total = 0;
+    for (f <- domain(fileLines)) {
+	total += fileLines[f];
+    }
+    return total;
 }
 
-public map[loc file, int lines] submap(map[Resource file, int lines] fileLines, set[str] dirs) {
-	map[Resource file, int lines] results = ();
-	for (f <- domain(fileLines)) {
-		print();
-	}
-	return results;
+public map[loc file, int lines] submap(map[Resource file, int lines] fileLines,
+	set[str] dirs) {
+
+    map[Resource file, int lines] results = ();
+    for (f <- domain(fileLines)) {
+	print();
+    }
+    return results;
 }
 
+public map[Tag version, int days] calcDevDays(map[RevisionId, ChangeSet]
+	revChangesets, rel[Tag version, RevisionId revision] versionRevisions){
 
-
-
-
-
-
-public map[Tag version, int days] calcDevDays(map[RevisionId, ChangeSet] revChangesets, rel[Tag version, RevisionId revision] versionRevisions) {
-	map[Tag symname, int days] results = ();
-	for (t <- domain(versionRevisions)) {
-		datetime startMeUp = getOneFrom(range(revChangesets)).committer.date;
-		datetime end = startMeUp;
-		for (rev <- versionRevisions[t]) {
-			d = revChangesets[rev].committer.date;
-			if (startMeUp > d) {
-				startMeUp = d;
-			}
-			if (end < d) {
-				end = d;
-			}
-		}
-		results[t] = daysDiff(startMeUp, end);
+    map[Tag symname, int days] results = ();
+    for (t <- domain(versionRevisions)) {
+	datetime startMeUp = getOneFrom(range(revChangesets)).committer.date;
+	datetime end = startMeUp;
+	for (rev <- versionRevisions[t]) {
+	    d = revChangesets[rev].committer.date;
+	    if (startMeUp > d) {
+		startMeUp = d;
+	    }
+	    if (end < d) {
+		end = d;
+	    }
 	}
-	return results;
+	results[t] = daysDiff(startMeUp, end);
+    }
+    return results;
 }
 
-public void printCalcDevDays(map[Tag version, int days] devDays, list[Tag] versions) {
-	for (i <- [1 .. size(versions)-1]) {
-		prev = versions[i-1];
-		current = versions[i];
-		if (prev in devDays && current in devDays) {
-			print("<current> <devDays[current] - devDays[prev]>");
-		}
+public void printCalcDevDays(map[Tag version, int days] devDays, 
+	list[Tag] versions) {
+
+    for (i <- [1 .. size(versions)-1]) {
+	prev = versions[i-1];
+	current = versions[i];
+	if (prev in devDays && current in devDays) {
+	    print("<current> <devDays[current] - devDays[prev]>");
 	}
+    }
 }
 
-public list[ChangeSet] readLinuxKernel(str directory, str prefix, Tag startMeUp, Tag end) {
-	list[ChangeSet] changesets = [];
-	print("started at <startTimer()>");
-	
-	map[int, set[Tag]] index = readBinaryValueFile(#(map[int, set[Tag]]), |file://<directory><prefix>Index.bin|);
-	list[int] indexCounter = quickSort(toList(domain(index)));
-	int startIndex = 0;
-	int endIndex = max(indexCounter);
-	for (i <- indexCounter) {
-		if (startMeUp in index[i]) {
-			startIndex = i;
-		} else if (end in index[i]) {
-			endIndex = i;
-		}
+public list[ChangeSet] readLinuxKernel(str directory, str prefix, 
+	Tag startMeUp, Tag end) {
+
+    list[ChangeSet] changesets = [];
+    print("started at <startTimer()>");
+    
+    map[int, set[Tag]] index = readBinaryValueFile(#(map[int, set[Tag]]), 
+	    |file://<directory><prefix>Index.bin|);
+    list[int] indexCounter = quickSort(toList(domain(index)));
+    int startIndex = 0;
+    int endIndex = max(indexCounter);
+    for (i <- indexCounter) {
+	if (startMeUp in index[i]) {
+	    startIndex = i;
+	} else if (end in index[i]) {
+	    endIndex = i;
 	}
-	for (i <- indexCounter, i > startIndex && i <= endIndex) {
-		changesets += readBinaryValueFile(#(list[ChangeSet]), |file://<directory><prefix><i>.bin|);
-		print("Read <index[i]> size: <size(changesets)>");
-	}
-	print("duration <stopTimer()> ms");
-	return changesets;
+    }
+    for (i <- indexCounter, i > startIndex && i <= endIndex) {
+	changesets += readBinaryValueFile(#(list[ChangeSet]), 
+		|file://<directory><prefix><i>.bin|);
+	print("Read <index[i]> size: <size(changesets)>");
+    }
+    print("duration <stopTimer()> ms");
+    return changesets;
 }
 
 
 public list[&T] quickSort(set[&T] st) {
-	return quickSort(toList(st));
+    return quickSort(toList(st));
 }
-public list[&T] quickSort(list[&T] lst)
-{
-  if(size(lst) <= 1){
-  	return lst;
-  }
+
+public list[&T] quickSort(list[&T] lst) {
+    if(size(lst) <= 1){
+	return lst;
+    }
   
-  list[&T] less = [];
-  list[&T] greater = [];
-  &T pivot = lst[0];
-  
-  <pivot, lst> = takeOneFrom(lst);
-  
-  for(&T elm <- lst){
-     if(elm <= pivot){
-       less = [elm] + less;
-     } else {
-       greater = [elm] + greater;
-     }
-  }
-  
-  return quickSort(less) + pivot + quickSort(greater);
+    list[&T] less = [];
+    list[&T] greater = [];
+    &T pivot = lst[0];
+
+    <pivot, lst> = takeOneFrom(lst);
+
+    for(&T elm <- lst){
+	if(elm <= pivot){
+	    less = [elm] + less;
+	} else {
+	    greater = [elm] + greater;
+	}
+    }
+
+    return quickSort(less) + pivot + quickSort(greater);
 }

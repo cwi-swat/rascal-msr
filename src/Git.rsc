@@ -23,8 +23,8 @@ public tuple[list[int], InitVars, MappingVars] gitStats() {
     return <stats(initVars, maps), initVars, maps>;
 }
 
-public tuple[list[Tag] releases, Repository repo, 
-       rel[str cat, str dir] catDirs] getGitConfig() {
+public tuple[list[Tag] releases, Repository repo, rel[str cat, str dir] catDirs]
+	getGitConfig() {
     repo = git(fs("/export/scratch1/shabazi/linux-2.6"), "", {});	
     releases = [label("v2.6.<i>") | i <- [12..21]];
 
