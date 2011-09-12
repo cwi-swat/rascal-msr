@@ -296,9 +296,9 @@ public void printMapOrderedOnRange(map[value,int] content, int topMax) {
     }
 }
 
-public rel[Tag version, str action, str email, 
-	str devverName, ChangeSet cs] calcDevelopers(Tag version, str action, 
-	rel[Info info, ChangeSet cs] devvers, bool parseCsMessage) {
+public rel[Tag version, str action, str email, str devverName, ChangeSet cs] 
+		calcDevelopers(Tag version, str action, 
+		rel[Info info, ChangeSet cs] devvers, bool parseCsMessage) {
 
     rel[Tag version, str action, str email, str devverName, ChangeSet cs] 
 	    results = {};
