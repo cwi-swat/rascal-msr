@@ -1,4 +1,4 @@
-package org.rascalmpl.library.experiments.scm.cvs;
+package experiments.scm.cvs;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -32,19 +32,20 @@ import org.netbeans.lib.cvsclient.connection.Connection;
 import org.netbeans.lib.cvsclient.connection.LocalConnection;
 import org.netbeans.lib.cvsclient.connection.PServerConnection;
 import org.rascalmpl.interpreter.result.RascalFunction;
-import org.rascalmpl.library.experiments.scm.Scm;
-import org.rascalmpl.library.experiments.scm.ScmProvider;
-import org.rascalmpl.library.experiments.scm.ScmProviderException;
-import org.rascalmpl.library.experiments.scm.ScmTypes;
-import org.rascalmpl.library.experiments.scm.ScmTypes.Annotation;
-import org.rascalmpl.library.experiments.scm.ScmTypes.CheckoutUnit;
-import org.rascalmpl.library.experiments.scm.ScmTypes.Info;
-import org.rascalmpl.library.experiments.scm.ScmTypes.LogOption;
-import org.rascalmpl.library.experiments.scm.ScmTypes.Repository;
-import org.rascalmpl.library.experiments.scm.ScmTypes.Resource;
-import org.rascalmpl.library.experiments.scm.ScmTypes.Revision;
-import org.rascalmpl.library.experiments.scm.ScmTypes.RevisionId;
-import org.rascalmpl.library.experiments.scm.ScmTypes.WcResource;
+
+import experiments.scm.Scm;
+import experiments.scm.ScmProvider;
+import experiments.scm.ScmProviderException;
+import experiments.scm.ScmTypes;
+import experiments.scm.ScmTypes.Annotation;
+import experiments.scm.ScmTypes.CheckoutUnit;
+import experiments.scm.ScmTypes.Info;
+import experiments.scm.ScmTypes.LogOption;
+import experiments.scm.ScmTypes.Repository;
+import experiments.scm.ScmTypes.Resource;
+import experiments.scm.ScmTypes.Revision;
+import experiments.scm.ScmTypes.RevisionId;
+import experiments.scm.ScmTypes.WcResource;
 
 public class CvsProvider implements ScmProvider<CvsLogEntryHandler> {
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z");

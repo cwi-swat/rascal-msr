@@ -4,9 +4,8 @@ import org.eclipse.imp.pdb.facts.IConstructor;
 import org.eclipse.imp.pdb.facts.IListWriter;
 import org.eclipse.imp.pdb.facts.ISet;
 import org.rascalmpl.interpreter.result.RascalFunction;
-import org.rascalmpl.library.experiments.scm.ScmTypes.Info;
-import org.rascalmpl.library.experiments.scm.ScmTypes.Revision;
-import org.rascalmpl.library.experiments.scm.ScmTypes.WcResource;
+
+import experiments.scm.ScmTypes.WcResource;
 
 public interface ScmProvider<E extends ScmLogEntryHandler<?>> {
 	

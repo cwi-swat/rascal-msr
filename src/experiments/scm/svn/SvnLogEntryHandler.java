@@ -1,4 +1,4 @@
-package org.rascalmpl.library.experiments.scm.svn;
+package experiments.scm.svn;
 
 import java.util.Map;
 
@@ -9,18 +9,18 @@ import org.eclipse.imp.pdb.facts.IRelationWriter;
 import org.eclipse.imp.pdb.facts.ISet;
 import org.eclipse.imp.pdb.facts.IValue;
 import org.rascalmpl.interpreter.result.RascalFunction;
-import org.rascalmpl.library.experiments.scm.AbstractScmLogEntryHandler;
-import org.rascalmpl.library.experiments.scm.Scm;
-import org.rascalmpl.library.experiments.scm.ScmEntryChangeKind;
-import org.rascalmpl.library.experiments.scm.ScmTypes;
-import org.rascalmpl.library.experiments.scm.ScmEntryChangeKind.SvnChangeKind;
-import org.rascalmpl.library.experiments.scm.ScmTypes.Annotation;
-import org.rascalmpl.library.experiments.scm.ScmTypes.LogOption;
-import org.rascalmpl.library.experiments.scm.ScmTypes.MergeDetail;
-import org.rascalmpl.library.experiments.scm.ScmTypes.Repository;
-import org.rascalmpl.library.experiments.scm.ScmTypes.Resource;
-import org.rascalmpl.library.experiments.scm.ScmTypes.Revision;
-import org.rascalmpl.library.experiments.scm.ScmTypes.RevisionId;
+import experiments.scm.AbstractScmLogEntryHandler;
+import experiments.scm.Scm;
+import experiments.scm.ScmEntryChangeKind;
+import experiments.scm.ScmTypes;
+import experiments.scm.ScmEntryChangeKind.SvnChangeKind;
+import experiments.scm.ScmTypes.Annotation;
+import experiments.scm.ScmTypes.LogOption;
+import experiments.scm.ScmTypes.MergeDetail;
+import experiments.scm.ScmTypes.Repository;
+import experiments.scm.ScmTypes.Resource;
+import experiments.scm.ScmTypes.Revision;
+import experiments.scm.ScmTypes.RevisionId;
 import org.tmatesoft.svn.core.ISVNLogEntryHandler;
 import org.tmatesoft.svn.core.SVNLogEntry;
 import org.tmatesoft.svn.core.SVNLogEntryPath;

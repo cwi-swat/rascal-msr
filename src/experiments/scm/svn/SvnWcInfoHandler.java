@@ -1,21 +1,22 @@
-package org.rascalmpl.library.experiments.scm.svn;
+package experiments.scm.svn;
 
 import org.eclipse.imp.pdb.facts.IConstructor;
 import org.eclipse.imp.pdb.facts.IDateTime;
 import org.eclipse.imp.pdb.facts.ISet;
 import org.eclipse.imp.pdb.facts.ISetWriter;
 import org.eclipse.imp.pdb.facts.ISourceLocation;
-import org.rascalmpl.library.experiments.scm.Scm;
-import org.rascalmpl.library.experiments.scm.ScmTypes;
-import org.rascalmpl.library.experiments.scm.ScmTypes.Info;
-import org.rascalmpl.library.experiments.scm.ScmTypes.Resource;
-import org.rascalmpl.library.experiments.scm.ScmTypes.Revision;
-import org.rascalmpl.library.experiments.scm.ScmTypes.RevisionId;
-import org.rascalmpl.library.experiments.scm.ScmTypes.WcResource;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNNodeKind;
 import org.tmatesoft.svn.core.wc.ISVNInfoHandler;
 import org.tmatesoft.svn.core.wc.SVNInfo;
+
+import experiments.scm.Scm;
+import experiments.scm.ScmTypes;
+import experiments.scm.ScmTypes.Info;
+import experiments.scm.ScmTypes.Resource;
+import experiments.scm.ScmTypes.Revision;
+import experiments.scm.ScmTypes.RevisionId;
+import experiments.scm.ScmTypes.WcResource;
 
 public class SvnWcInfoHandler implements ISVNInfoHandler {
 	

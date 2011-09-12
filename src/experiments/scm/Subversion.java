@@ -1,4 +1,4 @@
-package experiments;
+package experiments.scm;
 
 import java.io.ByteArrayOutputStream;
 import java.net.URI;

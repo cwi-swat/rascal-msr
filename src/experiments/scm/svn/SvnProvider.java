@@ -1,4 +1,4 @@
-package org.rascalmpl.library.experiments.scm.svn;
+package experiments.scm.svn;
 
 import java.io.File;
 import java.net.URI;
@@ -10,14 +10,6 @@ import org.eclipse.imp.pdb.facts.ISet;
 import org.eclipse.imp.pdb.facts.IValue;
 import org.eclipse.imp.pdb.facts.IValueFactory;
 import org.rascalmpl.interpreter.result.RascalFunction;
-import org.rascalmpl.library.experiments.scm.ScmProvider;
-import org.rascalmpl.library.experiments.scm.ScmProviderException;
-import org.rascalmpl.library.experiments.scm.ScmTypes;
-import org.rascalmpl.library.experiments.scm.ScmTypes.CheckoutUnit;
-import org.rascalmpl.library.experiments.scm.ScmTypes.LogOption;
-import org.rascalmpl.library.experiments.scm.ScmTypes.Repository;
-import org.rascalmpl.library.experiments.scm.ScmTypes.Revision;
-import org.rascalmpl.library.experiments.scm.ScmTypes.RevisionId;
 import org.tmatesoft.svn.core.SVNDepth;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNURL;
@@ -33,6 +25,15 @@ import org.tmatesoft.svn.core.io.SVNRepositoryFactory;
 import org.tmatesoft.svn.core.wc.SVNRevision;
 import org.tmatesoft.svn.core.wc.SVNUpdateClient;
 import org.tmatesoft.svn.core.wc.SVNWCClient;
+
+import experiments.scm.ScmProvider;
+import experiments.scm.ScmProviderException;
+import experiments.scm.ScmTypes;
+import experiments.scm.ScmTypes.CheckoutUnit;
+import experiments.scm.ScmTypes.LogOption;
+import experiments.scm.ScmTypes.Repository;
+import experiments.scm.ScmTypes.Revision;
+import experiments.scm.ScmTypes.RevisionId;
 
 public class SvnProvider implements ScmProvider<SvnLogEntryHandler> {
 	

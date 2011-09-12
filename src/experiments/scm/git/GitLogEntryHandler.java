@@ -1,4 +1,4 @@
-package org.rascalmpl.library.experiments.scm.git;
+package experiments.scm.git;
 
 import java.text.ParseException;
 import java.util.HashSet;
@@ -13,22 +13,22 @@ import org.eclipse.imp.pdb.facts.ISetWriter;
 import org.eclipse.imp.pdb.facts.ITuple;
 import org.eclipse.imp.pdb.facts.type.Type;
 import org.rascalmpl.interpreter.result.RascalFunction;
-import org.rascalmpl.library.experiments.scm.AbstractScmLogEntryHandler;
-import org.rascalmpl.library.experiments.scm.Scm;
-import org.rascalmpl.library.experiments.scm.ScmEntryChangeKind;
-import org.rascalmpl.library.experiments.scm.ScmEntryChangeKind.ChangeCodeValue;
-import org.rascalmpl.library.experiments.scm.ScmTypes;
-import org.rascalmpl.library.experiments.scm.ScmTypes.Annotation;
-import org.rascalmpl.library.experiments.scm.ScmTypes.Info;
-import org.rascalmpl.library.experiments.scm.ScmTypes.MergeDetail;
-import org.rascalmpl.library.experiments.scm.ScmTypes.Resource;
-import org.rascalmpl.library.experiments.scm.ScmTypes.Revision;
-import org.rascalmpl.library.experiments.scm.ScmTypes.RevisionId;
-import org.rascalmpl.library.experiments.scm.ScmTypes.Sha;
-import org.rascalmpl.library.experiments.scm.ScmTypes.Tag;
 
 import edu.nyu.cs.javagit.api.commands.GitLogResponse.Commit;
 import edu.nyu.cs.javagit.api.commands.GitLogResponse.CommitFile;
+import experiments.scm.AbstractScmLogEntryHandler;
+import experiments.scm.Scm;
+import experiments.scm.ScmEntryChangeKind;
+import experiments.scm.ScmEntryChangeKind.ChangeCodeValue;
+import experiments.scm.ScmTypes;
+import experiments.scm.ScmTypes.Annotation;
+import experiments.scm.ScmTypes.Info;
+import experiments.scm.ScmTypes.MergeDetail;
+import experiments.scm.ScmTypes.Resource;
+import experiments.scm.ScmTypes.Revision;
+import experiments.scm.ScmTypes.RevisionId;
+import experiments.scm.ScmTypes.Sha;
+import experiments.scm.ScmTypes.Tag;
 
 public class GitLogEntryHandler extends AbstractScmLogEntryHandler<Commit> {
 	private static final String BRANCH_START = "refs/heads/";

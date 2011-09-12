@@ -1,4 +1,4 @@
-package org.rascalmpl.library.experiments.scm.cvs;
+package experiments.scm.cvs;
 
 import java.util.List;
 
@@ -22,13 +22,13 @@ import org.netbeans.lib.cvsclient.event.MessageEvent;
 import org.netbeans.lib.cvsclient.event.ModuleExpansionEvent;
 import org.netbeans.lib.cvsclient.event.TerminationEvent;
 import org.rascalmpl.interpreter.result.RascalFunction;
-import org.rascalmpl.library.experiments.scm.AbstractScmLogEntryHandler;
-import org.rascalmpl.library.experiments.scm.Scm;
-import org.rascalmpl.library.experiments.scm.ScmEntryChangeKind;
-import org.rascalmpl.library.experiments.scm.ScmTypes;
-import org.rascalmpl.library.experiments.scm.ScmTypes.Info;
-import org.rascalmpl.library.experiments.scm.ScmTypes.Resource;
-import org.rascalmpl.library.experiments.scm.ScmTypes.Tag;
+import experiments.scm.AbstractScmLogEntryHandler;
+import experiments.scm.Scm;
+import experiments.scm.ScmEntryChangeKind;
+import experiments.scm.ScmTypes;
+import experiments.scm.ScmTypes.Info;
+import experiments.scm.ScmTypes.Resource;
+import experiments.scm.ScmTypes.Tag;
 
 public class CvsLogEntryHandler extends AbstractScmLogEntryHandler<LogInformation> implements CVSListener {
 	

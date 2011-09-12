@@ -24,6 +24,7 @@ import org.eclipse.imp.pdb.facts.IString;
 import org.eclipse.imp.pdb.facts.IValue;
 import org.eclipse.imp.pdb.facts.IValueFactory;
 import org.rascalmpl.interpreter.result.RascalFunction;
+
 import experiments.scm.ScmTypes.ChangeSet;
 import experiments.scm.ScmTypes.Info;
 import experiments.scm.ScmTypes.Repository;
@@ -48,11 +49,11 @@ public class Scm {
     	Repository type = Repository.from(repository);
     	switch (type) {
 			case CVS:
-				return cvsProvider;
+				return (ScmProvider<?>) cvsProvider;
 			case SVN:
-				return svnProvider;
+				return (ScmProvider<?>) svnProvider;
 			case GIT:
-				return gitProvider;
+				return (ScmProvider<?>) gitProvider;
 			default:
 				throw new IllegalArgumentException("Can't find the right repository configuration for '" + type + "'");
 		}
@@ -86,7 +87,7 @@ public class Scm {
 		}
     	System.out.println("void getChangesets(" + repository + ", " + callBack + ")");
     	try {
-    		ScmLogEntryHandler<?> handler = getProviderFor(repository).extractLogs(repository, (RascalFunction) callBack, null);
+    		getProviderFor(repository).extractLogs(repository, (RascalFunction) callBack, null);
     	} catch (Exception e) {
     		e.printStackTrace();
     		System.out.println("StopTimer:" + Timer.stopTimer());
@@ -101,7 +102,7 @@ public class Scm {
     	System.out.println("IList getChangesets(" + repository + ")");
     	
     	try {
-    		ScmLogEntryHandler<?> handler = getProviderFor(repository).extractLogs(repository, null, writer);
+    		getProviderFor(repository).extractLogs(repository, null, writer);
     	} catch (Exception e) {
     		e.printStackTrace();
     		System.out.println("StopTimer:" + Timer.stopTimer());
@@ -242,7 +243,7 @@ public class Scm {
 		return content.size() > 0 ? Resource.FOLDER_CONTENT.make(rootLocation, content) : Resource.FOLDER.make(rootLocation);
 	}
 
-    public  String encodePath(String path) {
+    public static String encodePath(String path) {
     	if (path.indexOf('{') >= 0 || path.indexOf('}') >= 0 || path.indexOf(' ') >= 0) {
 			StringBuilder builder = new StringBuilder();
 			for (int i = 0; i < path.length(); i++) {
@@ -273,7 +274,7 @@ public class Scm {
      * @param filePath not starting with a / or \
      * @return the full path to the file as an ISourceLocation
      */
-    public  ISourceLocation createResourceId(String workspace, String filePath) {
+    public  static ISourceLocation  createResourceId(String workspace, String filePath) {
     	return ScmTypes.VF.sourceLocation(workspace + "/" + Scm.encodePath(filePath));
     }
 

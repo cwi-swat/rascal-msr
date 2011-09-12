@@ -14,8 +14,9 @@ import org.eclipse.imp.pdb.facts.IValueFactory;
 import org.eclipse.imp.pdb.facts.type.Type;
 import org.eclipse.imp.pdb.facts.type.TypeFactory;
 import org.eclipse.imp.pdb.facts.type.TypeStore;
-import org.rascalmpl.library.experiments.scm.ScmEntryChangeKind.ChangeCode;
 import org.rascalmpl.values.ValueFactoryFactory;
+
+import experiments.scm.ScmEntryChangeKind.ChangeCode;
 
 public interface ScmTypes {
 	public static final TypeFactory TF = TypeFactory.getInstance();
