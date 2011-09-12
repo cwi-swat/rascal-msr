@@ -7,8 +7,7 @@ Bundle-ClassPath: rascal-msr.jar,
  lib/org-netbeans-lib-cvsclient-RELEASE61.jar,
  lib/svnkit.jar,
  lib/trilead.jar,
- migod/Documents/workspace/rascal/src,
- migod/Documents/workspace/rascal/lib/joda-time-1.6.jar
+ lib/joda-time-1.6.jar
 Export-Package: com.trilead.ssh2,
  com.trilead.ssh2.auth,
  com.trilead.ssh2.channel,

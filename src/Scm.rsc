@@ -26,20 +26,20 @@ data Tag = label(str name) | branch(str name);
 anno loc Connection@logFile;
 anno set[Tag] Revision@tags;
 
-@javaClass{org.rascalmpl.library.experiments.scm.Scm}
-public list[ChangeSet] java getChangesets(Repository repository);
+@javaClass{experiments.scm.Scm}
+public java list[ChangeSet]  getChangesets(Repository repository);
 
-@javaClass{org.rascalmpl.library.experiments.scm.Scm}
-public void java getChangesets(Repository repository, ChangeSet (ChangeSet) callBack);
+@javaClass{experiments.scm.Scm}
+public java void  getChangesets(Repository repository, ChangeSet (ChangeSet) callBack);
 
-@javaClass{org.rascalmpl.library.experiments.scm.Scm}
-public void java checkoutResources(CheckoutUnit unit, Repository repository);
+@javaClass{experiments.scm.Scm}
+public java void  checkoutResources(CheckoutUnit unit, Repository repository);
 
-@javaClass{org.rascalmpl.library.experiments.scm.Scm}
-public set[WcResource] java getResources(Repository repository);
+@javaClass{experiments.scm.Scm}
+public java set[WcResource]  getResources(Repository repository);
 
-@javaClass{org.rascalmpl.library.experiments.scm.Scm}
-public map[Resource, int] java linesCount(set[Resource] files);
+@javaClass{experiments.scm.Scm}
+public java map[Resource, int]  linesCount(set[Resource] files);
 
-@javaClass{org.rascalmpl.library.experiments.scm.Scm}
-public set[Resource] java buildResourceTree(set[Resource] files);
+@javaClass{experiments.scm.Scm}
+public java set[Resource]  buildResourceTree(set[Resource] files);

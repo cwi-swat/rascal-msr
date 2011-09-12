@@ -8,10 +8,12 @@ import Map;
 import DateTime;
 import ValueIO;
 import experiments::scm::Scm;
+import experiments::scm::git::Git;
 import experiments::scm::Timer;
 import LinuxKernel;
 import Node;
 import String;
+import Scm;
 
 public bool md = true;
 
