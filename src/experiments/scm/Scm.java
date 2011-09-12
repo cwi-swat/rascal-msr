@@ -37,12 +37,24 @@ import experiments.scm.svn.SvnProvider;
 
 public class Scm {
 	
-	private static final CvsProvider cvsProvider = new CvsProvider();
-	private static final SvnProvider svnProvider = new SvnProvider();
-	private static final GitProvider gitProvider = new GitProvider();
+	private static final CvsProvider cvsProvider;
+	private static final SvnProvider svnProvider;
+	private static final GitProvider gitProvider;
 		
+	static {
+		try {
+			cvsProvider = new CvsProvider();
+			svnProvider = new SvnProvider();
+			gitProvider = new GitProvider();
+		}
+		catch (Throwable e) {
+			System.err.println(e.getMessage());
+			e.printStackTrace();
+			throw new RuntimeException(e.getMessage(), e);
+		}
+	}
     public Scm(IValueFactory factory) {
-    	
+    	  System.err.println("initializing");
 	}
     
     private static ScmProvider<?> getProviderFor(IConstructor repository) {
