@@ -20,7 +20,7 @@ import Scm;
 public bool md = true;
 
 str linuxVersion = "2.6";
-str gitRepoLoc = "/Users/migod/migod/Desktop/linux-" + linuxVersion;
+str gitRepoLoc = "/Users/migod/Desktop/linux-" + linuxVersion;
 // str gitRepoLoc = "/export/scratch1/shabazi/linux-" + linuxVersion;
 
 
@@ -156,7 +156,8 @@ public void statsFive(rel[Tag version, ChangeSet cs] versionChangesets,
 public void main() {
     println ("Starting Main::main()");
     Repository gitRepo = git(fs(gitRepoLoc), "",     
-	    {fileDetails(), mergeDetails(), startUnit(cunit(label("v2.6.12"))), 
+	    {fileDetails(), mergeDetails(), 
+	    startUnit(cunit(label("v2.6.12"))), 
 	    endUnit(cunit(label("v2.6.21")))});
     list[ChangeSet] changesets = getChangesets(gitRepo);
     

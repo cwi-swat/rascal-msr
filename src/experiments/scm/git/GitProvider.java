@@ -52,7 +52,9 @@ import edu.nyu.cs.javagit.utilities.ExceptionMessageMap;
 
 public class GitProvider implements ScmProvider<GitLogEntryHandler> {
 	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy Z");
-	private static final String GIT_PATH = "/usr/bin/";
+	private static final String GIT_PATH = "/usr/local/bin/";  // migod: OSX
+	// private static final String GIT_PATH = "/usr/bin/";
+
 	
 	
 	public GitProvider() {
