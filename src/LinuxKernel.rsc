@@ -2,8 +2,6 @@ module LinuxKernel
 
 import ValueIO;
 import IO;
-import experiments::scm::Scm;
-import experiments::scm::Timer;
 import DateTime;
 import List;
 import Map;
@@ -12,6 +10,9 @@ import Relation;
 import Graph;
 import String;
 import Real;
+
+import experiments::scm::Scm;
+import experiments::scm::Timer;
 
 data infoActions = anyAction() | actions(set[str] actions) 
 	| notActions(set[str] actions);

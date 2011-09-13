@@ -7,15 +7,22 @@ import Set;
 import Map;
 import DateTime;
 import ValueIO;
+import Node;
+import String;
+
 import experiments::scm::Scm;
 import experiments::scm::git::Git;
 import experiments::scm::Timer;
+
 import LinuxKernel;
-import Node;
-import String;
 import Scm;
 
 public bool md = true;
+
+str linuxVersion = "2.6";
+str gitRepoLoc = "/Users/migod/migod/Desktop/linux-" + linuxVersion;
+// str gitRepoLoc = "/export/scratch1/shabazi/linux-" + linuxVersion;
+
 
 public void statsOne(list[ChangeSet] changesets) {
     print("started at <startTimer()>");
@@ -147,7 +154,8 @@ public void statsFive(rel[Tag version, ChangeSet cs] versionChangesets,
 }
 
 public void main() {
-    Repository gitRepo = git(fs("/export/scratch1/shabazi/linux-2.6"), "", 
+    println ("Starting Main::main()");
+    Repository gitRepo = git(fs(gitRepoLoc), "",     
 	    {fileDetails(), mergeDetails(), startUnit(cunit(label("v2.6.12"))), 
 	    endUnit(cunit(label("v2.6.21")))});
     list[ChangeSet] changesets = getChangesets(gitRepo);
@@ -215,7 +223,7 @@ public void main() {
 }
 
 public list[ChangeSet] mergeDetailsTest() {
-    gitRepo = git(fs("/export/scratch1/shabazi/gitrepo6"), "", {reverse()});
+    gitRepo = git(fs(gitRepoLoc), "", {reverse()});
     list[ChangeSet] changesets = getChangesets(gitRepo);
     for (cs <- changesets ) {
 	print("<cs.revision> - <cs.revision@mergeDetails ? {}>");
@@ -337,8 +345,7 @@ public list[ChangeSet] getBetweenTags(CheckoutUnit from, CheckoutUnit to) {
 	print(logOpt);
     }
     
-    Repository gitRepo = git(fs("/export/scratch1/shabazi/linux-2.6"), 
-	    "", logOpt);
+    Repository gitRepo = git(fs(gitRepoLoc), "", logOpt);
     // gitRepo = git(fs("/ufs/shahbazi/Documents/gmeta/testco"), "", from, to);
     map[int, set[Tag]] tags = ();
     int cntr=0;
@@ -573,7 +580,7 @@ public list[ChangeSet] getLinuxKernel() {
 	//gitRepo = git(fs("/export/scratch1/shabazi/linux-2.6"), "", cunit(decrementYears(now(), 10)), cunit(createDateTime(2007, 07, 9, 0, 0, 0, 0)));
 	//loc lgs = |file:///export/scratch1/shabazi/linux-2.6/v12.txt|;
 	
-    Repository gitRepo = git(fs("/export/scratch1/shabazi/linux-2.6"), "", {fileDetails(), mergeDetails(), reverse()});
+    Repository gitRepo = git(fs(gitRepoLoc), "", {fileDetails(), mergeDetails(), reverse()});
     map[int, set[Tag]] tags = ();
     list[ChangeSet] changesets = [];
     //startExtractingLogsFromFile(gitRepo, lgs, ChangeSet (ChangeSet cs) {  changesets += [cs]; return cs;  });
@@ -711,6 +718,7 @@ public tuple[list[Tag] tagsToProcess, map[Tag, ChangeSet] tagChangesets,
 public map[Tag symname, real changes] calculateMetrics(map[Tag symname, 
 	list[ChangeSet] changeset] changesets, 
 	map[Tag, ChangeSet] tagChangesets) {
+	
     tags = quickSort(toList(domain(changesets)));
     
     map[Tag symname, real changes] results = ();
