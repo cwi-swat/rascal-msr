@@ -1,4 +1,4 @@
-module migod-linux
+module migodLinux
 
 // Libs
 import List;

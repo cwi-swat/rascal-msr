@@ -1,4 +1,4 @@
-module Svn-StatsExample
+module SvnStatsExample
 
 import Utilities;
 import Statistics;

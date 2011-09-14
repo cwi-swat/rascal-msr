@@ -1,4 +1,4 @@
-module Cvs-StatsExample
+module CvsStatsExample
 
 import ChangeSetRecovery;
 import Utilities;

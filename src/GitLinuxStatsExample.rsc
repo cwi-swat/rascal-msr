@@ -1,4 +1,4 @@
-module Git-LinuxStatsExample
+module GitLinuxStatsExample
 
 import Utilities;
 import Statistics;
