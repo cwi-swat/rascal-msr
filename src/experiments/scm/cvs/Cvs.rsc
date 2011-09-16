@@ -4,7 +4,7 @@ import experiments::scm::Scm;
 data Repository = cvs(Connection conn, str mod, loc workspace, set[LogOption] options);
 data Connection = pserver(str url, str repname, str host, str username, str password);
 
-// add by migod
+// add by migod, on advice from Waruzjan
 data Connection = pserver(str url, str host, str username, str password);
 
 data ChangeSet = resource(Resource resource, rel[RevisionChange change, Info committer] revisions, rel[Revision revision, Tag symname] revTags);

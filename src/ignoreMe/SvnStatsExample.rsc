@@ -23,9 +23,10 @@ public tuple[list[int], InitVars, MappingVars] svnStats() {
     return <stats(initVars, maps), initVars, maps>;
 }
 
-public tuple[list[Tag] releases, Repository repo, 
-       rel[str cat, str dir] catDirs, 
-       map[Tag version, CheckoutUnit cunit] manualReleases] getSvnConfig() {
+public tuple[list[Tag] releases, Repository repo, rel[str cat, str dir] catDirs, 
+       map[Tag version, CheckoutUnit cunit] manualReleases] 
+       getSvnConfig() {
+       
     manualReleases = (label("0.7.3"):cunit(revision(id(4941))),
 	    label("0.8"):cunit(revision(id(5585))),
 	    label("0.8.1"):cunit(revision(id(5796))),
@@ -55,11 +56,9 @@ public tuple[list[Tag] releases, Repository repo,
     rootDir = repo.workspace.path;
     rel[str cat, str dir] catDirs = {};
     catDirs += {<"aterm-c", "<rootDir>/<d>"> | d <- ["aterm"]};
-    catDirs += {<"aterm-java", "<rootDir>/<d>"> 
-	| d <- ["aterm-java", "shared-objects", "JJTraveler"]};
+    catDirs += {<"aterm-java", "<rootDir>/<d>"> | d <- ["aterm-java", "shared-objects", "JJTraveler"]};
     catDirs += {<"toolbus", "<rootDir>/<d>"> | d <- ["toolbus", "toolbuslib"]};
-    catDirs += {<"toolbus-ng", "<rootDir>/<d>"> 
-	| d <- ["toolbus-ng", "aterm-java"]};
+    catDirs += {<"toolbus-ng", "<rootDir>/<d>"> | d <- ["toolbus-ng", "aterm-java"]};
     
     return <releases, repo, catDirs, manualReleases>;
 }
