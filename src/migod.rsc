@@ -22,9 +22,11 @@ public list[ChangeSet] migodChanges;
 data Connection = pserver(str url, str host, str username, str password);
 
 public void getGitExample () {
+	println (linuxGitLocation);
 	Repository repo = git(fs(linuxGitLocation), "", {});
 	// the below crashes
 	list[ChangeSet] resourceChanges = getChanges(repo); 
+	println(size(resourceChanges));
 }
 
 public void getSvnExample () {
@@ -32,6 +34,14 @@ public void getSvnExample () {
 	
 	// This seems to work, the number of changes reported is the same 
 	// as SVN reports withing Eclipse.
+	list[ChangeSet] resourceChanges = getChanges(repo);
+	println ("\nNumber of resource changes: <size(resourceChanges)>");
+	// print (resourceChanges);
+	migodChanges = {cs | cs <- resourceChanges, cs.committer.name=="migod"};
+}
+
+public void getSvnExample2 () {
+    Repository repo = svn(ssh("svn+ssh://sulphur.cs.uvic.ca/var/svn/papersJulius/2011/msrJese2011paper", "migod", "", |file:///Users/migod/.ssh/migod_rascal_rsa|), "", |file:///Users/migod/Rascal/svnWorkingCopy|,{});
 	list[ChangeSet] resourceChanges = getChanges(repo);
 	println ("\nNumber of resource changes: <size(resourceChanges)>");
 	// print (resourceChanges);

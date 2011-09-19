@@ -324,8 +324,10 @@ public rel[Tag version, str action, str email, str devverName, ChangeSet cs]
 //gets the changesets and measures the time 
 public list[ChangeSet] getChanges(Repository repo) {
     printStartTimer("initChangesets");
+    println("");
     changesets = getChangesets(repo);
     printStopTimer("initChangesets");
+    println("");
     return changesets;
 }
 

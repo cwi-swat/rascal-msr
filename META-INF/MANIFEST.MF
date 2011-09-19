@@ -92,7 +92,8 @@ Export-Package: com.trilead.ssh2,
  org.tmatesoft.svn.core.wc.xml,
  org.tmatesoft.svn.core.wc.xml.dtd,
  org.tmatesoft.svn.core.wc.xml.schema,
- org.tmatesoft.svn.util,
+ org.tmatesoft.svn.util
+Require-Bundle: org.eclipse.imp.pdb.values;bundle-version="0.2.5",
  target
 Require-Bundle: org.eclipse.imp.pdb.values;bundle-version="0.2.5",
  rascal;bundle-version="0.3.2",
