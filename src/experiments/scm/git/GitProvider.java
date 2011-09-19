@@ -285,7 +285,8 @@ public class GitProvider implements ScmProvider<GitLogEntryHandler> {
 			if (optLimitRange != null) {
 				options.setOptLimitRange(true, optLimitRange);
 			}
-			new GitLog().log(dotGit.getPath(), options, handler);
+			GitLog logger = new GitLog();
+			logger.log(dotGit.getPath(), options, handler);
 			handler.callBackToDoMerges();
 		} catch (JavaGitException e) {
 			throw new ScmProviderException(e.getMessage(), e);
