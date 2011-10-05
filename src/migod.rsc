@@ -46,8 +46,10 @@ public void getSvnExample2 () {
 	println ("\nNumber of resource changes: <size(resourceChanges)>");
 	// print (resourceChanges);
 	migodChanges = {cs | cs <- resourceChanges, cs.committer.name=="migod"};
+	
 }
 
+// This doesn't work yet!
 public void getCvsExample () {
        // Probably I am not using the right parameters here.
        // pserver(str url, str repname, str host, str username, str password);
@@ -62,10 +64,10 @@ public void getCvsExample () {
        println ("\nNumber of resource changes: <size(resourceChanges)>");
 }
 
-
+// This doesn't work yet!
 public void getCvsExample2 () {    	
        // data Connection = pserver(str url, str host, str username, str password);
-       Connection cvsConnection = pserver("pserver.samba.org/cvsroot","pserver.samba.org","cvs", "");
+       Connection cvsConnection = pserver("pserver.samba.org/cvsroot","pserver.samba.org","cvs", "cvs");
        Repository repo = cvs(cvsConnection, "SambaCVS", |file:///Users/migod/Rascal/cvsWorkingCopy|,{});
        list[ChangeSet] resourceChanges = getChanges(repo);
        // This returns zero, but shouldn't
