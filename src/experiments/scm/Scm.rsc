@@ -1,22 +1,31 @@
 module experiments::scm::Scm
 
-data Project = project(Repository configuration, list[ChangeSet] changesets);
+data Project = project(Repository configuration, 
+	list[ChangeSet] changesets);
 
 data Repository;
 data Connection = fs(str url);
-data LogOption = startUnit(CheckoutUnit unit) | endUnit(CheckoutUnit unit);
+data LogOption = startUnit(CheckoutUnit unit) 
+	| endUnit(CheckoutUnit unit);
 
 data ChangeSet;
-data RevisionChange = added(Revision revision) | modified(Revision revision) | removed(Revision revision);
-data Revision = revision(RevisionId id) | revision(RevisionId id, Revision parent);
+data RevisionChange = added(Revision revision) 
+	| modified(Revision revision) 
+	| removed(Revision revision);
+data Revision = revision(RevisionId id) 
+	| revision(RevisionId id, Revision parent);
 data RevisionId;
-data Info 	= none(datetime date) | author(datetime date, str name) | 
-			  message(datetime date, str message) | message(datetime date, str name, str message);
-data Resource = file(loc id) | folder(loc id) | folder(loc id, set[Resource] resources);
+data Info 	= none(datetime date) 
+	| author(datetime date, str name) 
+	| message(datetime date, str message) 
+	| message(datetime date, str name, str message);
+data Resource = file(loc id) 
+	| folder(loc id) 
+	| folder(loc id, set[Resource] resources);
 data WcResource;
 
 data CheckoutUnit;
-data Tag 	= label(str name) | branch(str name);
+data Tag = label(str name) | branch(str name);
 
 anno set[Tag] Revision@tags;
 

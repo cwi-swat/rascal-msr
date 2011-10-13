@@ -33,18 +33,19 @@ public alias MappingVars
 
 public list[int] stats(InitVars initVars, MappingVars maps) {
 	domainMap = readTextValueFile(#(map[str domain, str company]), 
-		|file:///export/scratch1/shabazi/domain-map.txt|);
+		|file:///Users/migod/Rascal/domain-map.txt|);
+		// |file:///export/scratch1/shabazi/domain-map.txt|);
 	list[int] durations = [];
 	Tag lastVersion = initVars.releases[0/*size(initVars.releases) - 1*/];
 	//list[Tag] checkVersions = [label("1.0"), label("1.1"), label("1.2"), label("1.3"), label("1.4"), label("1.5"), label("1.5.1")];
-	print("------------------STATS 1------------------");
-	durations += statsOne(maps.tagChangeset, initVars.releases);
-	print("------------------STATS 2------------------");
-	durations += statsTwo(maps.versionRevisions, initVars.releases);
-	print("------------------STATS 3------------------");
-	//durations += statsThree(initVars.repo, maps.tagChangeset, [lastVersion]/*initVars.releases*/);
-	print("------------------STATS 4------------------");
-	//durations += statsFour(initVars.repo, maps.tagChangeset, [lastVersion]/*initVars.releases*/, initVars.catDirs);
+	//print("------------------STATS 1------------------");
+	//durations += statsOne(maps.tagChangeset, initVars.releases);
+	//print("------------------STATS 2------------------");
+	//durations += statsTwo(maps.versionRevisions, initVars.releases);
+	//print("------------------STATS 3------------------");
+	////durations += statsThree(initVars.repo, maps.tagChangeset, [lastVersion]/*initVars.releases*/);
+	//print("------------------STATS 4------------------");
+	////durations += statsFour(initVars.repo, maps.tagChangeset, [lastVersion]/*initVars.releases*/, initVars.catDirs);
 	print("------------------STATS 5------------------");
 	durations += statsFive(maps.versionNoMergesChangesets, domainMap, [lastVersion]/*initVars.releases*/);
 	
@@ -62,11 +63,11 @@ public int statsOne(map[Tag version, ChangeSet cs] tagChangeset,
     printStartTimer("statsOne");
     int i = 0;
     for (version <- releases, version in tagChangeset) { 
-	if (i > 0) {
-	    prev = releases[i-1];
-	    print("<version.name> - <daysDiff(tagChangeset[prev].committer.date, tagChangeset[version].committer.date)>");
-	}
-	i += 1;
+		if (i > 0) {
+			prev = releases[i-1];
+			print("<version.name> - <daysDiff(tagChangeset[prev].committer.date, tagChangeset[version].committer.date)>");
+		}
+		i += 1;
     }
     return printStopTimer("statsOne");
 }
@@ -76,7 +77,7 @@ public int statsTwo(rel[Tag version, RevisionId revision] versionRevisions,
 
     printStartTimer("statsTwo");
     for (version <- releases, version in versionRevisions.version) {
-	print("<version> - <size(versionRevisions[version])>");
+		print("<version> - <size(versionRevisions[version])>");
     }
     return printStopTimer("statsTwo");
 }
@@ -86,15 +87,15 @@ public int statsThree(Repository repo, map[Tag version, ChangeSet cs]
 
     printStartTimer("statsThree");
     for (version <- releases) {
-	checkoutVersion(repo, tagChangeset, version);
-	set[WcResource] wcResources = getResources(repo);
-	set[Resource resource] resources = {r.resource | r <- wcResources};
-	map[Resource file, int lines] fileLines = linesCount(resources);
-	int totalLines = 0;
-	for(f <- fileLines.file) {
-	    totalLines += fileLines[f];
-	}
-	print("<version.name> - <size(fileLines.file)> - <totalLines>");
+		checkoutVersion(repo, tagChangeset, version);
+		set[WcResource] wcResources = getResources(repo);
+		set[Resource resource] resources = {r.resource | r <- wcResources};
+		map[Resource file, int lines] fileLines = linesCount(resources);
+		int totalLines = 0;
+		for(f <- fileLines.file) {
+	    	totalLines += fileLines[f];
+		}
+		print("<version.name> - <size(fileLines.file)> - <totalLines>");
     }
     return printStopTimer("statsThree");
 }
@@ -105,9 +106,9 @@ public void checkoutVersion(Repository repo, map[Tag version, ChangeSet cs]
     CheckoutUnit cu;
     //little workaround for gits lack of checkout by date
     if (git(_,_,_) := repo) {
-	cu = cunit(version);
+		cu = cunit(version);
     } else {
-	cu = cunit(tagChangeset[version].committer.date);
+		cu = cunit(tagChangeset[version].committer.date);
     }
     checkoutResources(cu, repo);
 }
@@ -117,15 +118,15 @@ public int statsFour(Repository repo, map[Tag version, ChangeSet cs]
 
     int duration = 0;
     for (version <- releases) {
-	printStartTimer("checkout <version>");
-	checkoutVersion(repo, tagChangeset, version);
-	duration += printRestartTimer("getResources <version>");
-	set[WcResource] wcResources = getResources(repo);
-	//set[Resource resource] wcResources = getWCResources(repo);
-	duration += printStopTimer("getResources <version>");
-	set[Resource resource] resources = {r.resource | r <- wcResources};
-	duration += statsFour(repo, resources, catDirs);
-	print("statsFour - <version> - <duration>ms");
+		printStartTimer("checkout <version>");
+		checkoutVersion(repo, tagChangeset, version);
+		duration += printRestartTimer("getResources <version>");
+		set[WcResource] wcResources = getResources(repo);
+		//set[Resource resource] wcResources = getWCResources(repo);
+		duration += printStopTimer("getResources <version>");
+		set[Resource resource] resources = {r.resource | r <- wcResources};
+		duration += statsFour(repo, resources, catDirs);
+		print("statsFour - <version> - <duration>ms");
     }
     return duration;
 }
@@ -142,7 +143,7 @@ public int statsFour(Repository repo, set[Resource resource] resources,
     print("Category - Files - % of kernel");
     int totalFiles = size(filesByCat.file);
     for (c <- filesByCat.cat) {		
-	print("<c> - <size(filesByCat[c])> - <size(filesByCat[c])*100/totalFiles>% ");
+		print("<c> - <size(filesByCat[c])> - <size(filesByCat[c])*100/totalFiles>% ");
     }
     
     print("Category - Lines of Code - % of kernel");
@@ -151,14 +152,14 @@ public int statsFour(Repository repo, set[Resource resource] resources,
     duration += printStopTimer("resourcesByCategory");
     int totalLines = 0;
     for(f <- fileLines.file) {
-	totalLines += fileLines[f];
+		totalLines += fileLines[f];
     }
     for (c <- filesByCat.cat) {
-	int catLines = 0;
-	for (f <- filesByCat[c], file(_) := f) {
-	     catLines += fileLines[f];
-	}
-	print("<c> - <catLines> - <catLines*100/totalLines>%");
+		int catLines = 0;
+		for (f <- filesByCat[c], file(_) := f) {
+			catLines += fileLines[f];
+		}
+		print("<c> - <catLines> - <catLines*100/totalLines>%");
     }
     return duration;
 }
@@ -168,13 +169,13 @@ public rel[str cat, Resource file] resourcesByCategory(set[Resource
 
     rel[str cat, Resource resource] catResources = {};
     for (r <- resources) {
-	for(dir <- domain(dirCategories)) {
-	    if (startsWith(r.id.path, dir)) {
-		for(cat <- dirCategories[dir]) {
-		    catResources += {<cat, r>};
+		for(dir <- domain(dirCategories)) {
+	    	if (startsWith(r.id.path, dir)) {
+				for(cat <- dirCategories[dir]) {
+		    		catResources += {<cat, r>};
+				}
+	    	}
 		}
-	    }
-	}
     }
     return catResources;
 }
@@ -187,19 +188,19 @@ public int statsFive(rel[Tag version, ChangeSet cs] versionChangesets,
     rel[Tag version, str email, str devverName, ChangeSet cs] result = {};
     printStartTimer("calcDevelopers");
     for (version <- releases, version in versionChangesets.version) {
-	result += calcDevelopers(version, "Author", {<cs@author 
-		? cs.committer, cs>| cs <- versionChangesets[version]}, 
-		false)<0,2,3,4>;
+		result += calcDevelopers(version, "Author", 
+			{<cs@author ? cs.committer, cs>| cs <- versionChangesets[version]}, 
+			false)<0,2,3,4>;
     }
     
     duration += printRestartTimer("calcDevelopers");
     for (version <- releases, version in result.version) {
-	map[set[str name] user, set[ChangeSet] cs] userChanges 
-		= getUserChangeSets(result[version]);
-	map[set[str name] user, int count] userChangesCount 
-		= (usr : size(userChanges[usr]) | usr <- domain(userChanges));
-	duration += printRestartTimer("<version.name> - <size(userChanges.user)> users");
-	printMapOrderedOnRange(userChangesCount, 10);
+		map[set[str name] user, set[ChangeSet] cs] userChanges 
+			= getUserChangeSets(result[version]);
+		map[set[str name] user, int count] userChangesCount 
+			= (usr : size(userChanges[usr]) | usr <- domain(userChanges));
+		duration += printRestartTimer("<version.name> - <size(userChanges.user)> users");
+		printMapOrderedOnRange(userChangesCount, 10);
     }
 
     startTimer();//quietly restart the timer
@@ -213,13 +214,13 @@ public int statsFive(rel[Tag version, ChangeSet cs] versionChangesets,
 
     duration += printRestartTimer("versionCompanyChangesets");
     for (version <- releases, version in versionCompanyChangesets.version) {
-	rel[str company, ChangeSet cs] companyChangesets 
-		= versionCompanyChangesets[version];
-	map[str company, int changes] companyChangesCount = (company 
-		: size(companyChangesets[company]) 
-		| company <- domain(companyChangesets));
-	duration += printRestartTimer("\n<version.name> & <size(companyChangesets.company)> companies");
-	printMapOrderedOnRange(companyChangesCount, 10);
+		rel[str company, ChangeSet cs] companyChangesets 
+			= versionCompanyChangesets[version];
+		map[str company, int changes] companyChangesCount = (company 
+			: size(companyChangesets[company]) 
+			| company <- domain(companyChangesets));
+		duration += printRestartTimer("\n<version.name> & <size(companyChangesets.company)> companies");
+		printMapOrderedOnRange(companyChangesCount, 10);
     }
     duration += printStopTimer("versionCompanyChangesets");
     return duration;
