@@ -1,4 +1,19 @@
-package experiments.scm.cvs;
+/*******************************************************************************
+ * Copyright (c) 2009-2011 CWI
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   * Waruzjan Shahbazian - waruzjan@gmail.com
+ *   * Jurgen J. Vinju - Jurgen.Vinju@cwi.nl - CWI
+ *   
+ * Notice:
+ *  The Contributors elect to elects to include the org.netbeans.lib.cvsclient in this distribution
+ *  under the CDDL license.
+*******************************************************************************/
+package resource.versions.cvs;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -33,19 +48,19 @@ import org.netbeans.lib.cvsclient.connection.LocalConnection;
 import org.netbeans.lib.cvsclient.connection.PServerConnection;
 import org.rascalmpl.interpreter.result.RascalFunction;
 
-import experiments.scm.Scm;
-import experiments.scm.ScmProvider;
-import experiments.scm.ScmProviderException;
-import experiments.scm.ScmTypes;
-import experiments.scm.ScmTypes.Annotation;
-import experiments.scm.ScmTypes.CheckoutUnit;
-import experiments.scm.ScmTypes.Info;
-import experiments.scm.ScmTypes.LogOption;
-import experiments.scm.ScmTypes.Repository;
-import experiments.scm.ScmTypes.Resource;
-import experiments.scm.ScmTypes.Revision;
-import experiments.scm.ScmTypes.RevisionId;
-import experiments.scm.ScmTypes.WcResource;
+import resource.versions.ScmProvider;
+import resource.versions.ScmProviderException;
+import resource.versions.ScmTypes;
+import resource.versions.Versions;
+import resource.versions.ScmTypes.Annotation;
+import resource.versions.ScmTypes.CheckoutUnit;
+import resource.versions.ScmTypes.Info;
+import resource.versions.ScmTypes.LogOption;
+import resource.versions.ScmTypes.Repository;
+import resource.versions.ScmTypes.Resource;
+import resource.versions.ScmTypes.Revision;
+import resource.versions.ScmTypes.RevisionId;
+import resource.versions.ScmTypes.WcResource;
 
 public class CvsProvider implements ScmProvider<CvsLogEntryHandler> {
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z");
@@ -90,7 +105,7 @@ public class CvsProvider implements ScmProvider<CvsLogEntryHandler> {
 
 		while(iterator.hasNext()) {
 			Entry entry = iterator.next();
-			String childPath = folder + "/" + Scm.encodePath(entry.getName());
+			String childPath = folder + "/" + Versions.encodePath(entry.getName());
 			ISourceLocation id = ScmTypes.VF.sourceLocation(childPath);
 			IConstructor child;
 			if (!entry.isDirectory()) {

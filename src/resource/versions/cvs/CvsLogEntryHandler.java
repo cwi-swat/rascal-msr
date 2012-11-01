@@ -1,4 +1,19 @@
-package experiments.scm.cvs;
+/*******************************************************************************
+ * Copyright (c) 2009-2011 CWI
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   * Waruzjan Shahbazian - waruzjan@gmail.com
+ *   * Jurgen J. Vinju - Jurgen.Vinju@cwi.nl - CWI
+ *   
+ * Notice:
+ *  The Contributors elect to elects to include the org.netbeans.lib.cvsclient in this distribution
+ *  under the CDDL license.
+*******************************************************************************/
+package resource.versions.cvs;
 
 import java.util.List;
 
@@ -22,13 +37,14 @@ import org.netbeans.lib.cvsclient.event.MessageEvent;
 import org.netbeans.lib.cvsclient.event.ModuleExpansionEvent;
 import org.netbeans.lib.cvsclient.event.TerminationEvent;
 import org.rascalmpl.interpreter.result.RascalFunction;
-import experiments.scm.AbstractScmLogEntryHandler;
-import experiments.scm.Scm;
-import experiments.scm.ScmEntryChangeKind;
-import experiments.scm.ScmTypes;
-import experiments.scm.ScmTypes.Info;
-import experiments.scm.ScmTypes.Resource;
-import experiments.scm.ScmTypes.Tag;
+
+import resource.versions.AbstractScmLogEntryHandler;
+import resource.versions.ScmEntryChangeKind;
+import resource.versions.ScmTypes;
+import resource.versions.Versions;
+import resource.versions.ScmTypes.Info;
+import resource.versions.ScmTypes.Resource;
+import resource.versions.ScmTypes.Tag;
 
 public class CvsLogEntryHandler extends AbstractScmLogEntryHandler<LogInformation> implements CVSListener {
 	
@@ -52,7 +68,7 @@ public class CvsLogEntryHandler extends AbstractScmLogEntryHandler<LogInformatio
 		//We will use the substring of the filename, starting after the repository url part (if matched)
 		//and ended at length - 2, since we don't need the ',v' part of the filename.
 		fileName = fileName.substring(fileName.startsWith(url) ? url.length() : 0, fileName.length() - 2);
-		ISourceLocation sourceLocation = ScmTypes.VF.sourceLocation(workspace + Scm.encodePath(fileName));
+		ISourceLocation sourceLocation = ScmTypes.VF.sourceLocation(workspace + Versions.encodePath(fileName));
 	
 		IConstructor resource = Resource.FILE.make(sourceLocation);
 		IRelationWriter revisions = ScmTypes.VF.relationWriter(ScmTypes.TF.tupleType(ScmTypes.RevisionChange.getAbstractType(), ScmTypes.Info.getAbstractType()));

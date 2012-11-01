@@ -1,4 +1,15 @@
-package experiments.scm.git;
+/*******************************************************************************
+ * Copyright (c) 2009-2011 CWI
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   * Waruzjan Shahbazian - waruzjan@gmail.com
+ *   * Jurgen J. Vinju - Jurgen.Vinju@cwi.nl - CWI
+*******************************************************************************/
+package resource.versions.git;
 
 import java.text.ParseException;
 import java.util.HashSet;
@@ -14,21 +25,21 @@ import org.eclipse.imp.pdb.facts.ITuple;
 import org.eclipse.imp.pdb.facts.type.Type;
 import org.rascalmpl.interpreter.result.RascalFunction;
 
+import resource.versions.AbstractScmLogEntryHandler;
+import resource.versions.ScmEntryChangeKind;
+import resource.versions.ScmEntryChangeKind.ChangeCodeValue;
+import resource.versions.ScmTypes;
+import resource.versions.ScmTypes.Annotation;
+import resource.versions.ScmTypes.Info;
+import resource.versions.ScmTypes.MergeDetail;
+import resource.versions.ScmTypes.Resource;
+import resource.versions.ScmTypes.Revision;
+import resource.versions.ScmTypes.RevisionId;
+import resource.versions.ScmTypes.Sha;
+import resource.versions.ScmTypes.Tag;
+import resource.versions.Versions;
 import edu.nyu.cs.javagit.api.commands.GitLogResponse.Commit;
 import edu.nyu.cs.javagit.api.commands.GitLogResponse.CommitFile;
-import experiments.scm.AbstractScmLogEntryHandler;
-import experiments.scm.Scm;
-import experiments.scm.ScmEntryChangeKind;
-import experiments.scm.ScmEntryChangeKind.ChangeCodeValue;
-import experiments.scm.ScmTypes;
-import experiments.scm.ScmTypes.Annotation;
-import experiments.scm.ScmTypes.Info;
-import experiments.scm.ScmTypes.MergeDetail;
-import experiments.scm.ScmTypes.Resource;
-import experiments.scm.ScmTypes.Revision;
-import experiments.scm.ScmTypes.RevisionId;
-import experiments.scm.ScmTypes.Sha;
-import experiments.scm.ScmTypes.Tag;
 
 public class GitLogEntryHandler extends AbstractScmLogEntryHandler<Commit> {
 	private static final String BRANCH_START = "refs/heads/";
@@ -40,8 +51,6 @@ public class GitLogEntryHandler extends AbstractScmLogEntryHandler<Commit> {
 		ScmTypes.TF.tupleType(ScmTypes.Resource.getAbstractType(), ScmTypes.RevisionChange.getAbstractType());
 	//private static final Type REV_RESOURCE_CHANGE =
 	//	ScmTypes.TF.tupleType(ScmTypes.Revision.getAbstractType(), ScmTypes.Resource.getAbstractType(), ScmTypes.RevisionChange.getAbstractType());
-	
-	private static final boolean DEBUG = false;
 	
 	private final String repositoryUrl;
 	
@@ -181,7 +190,7 @@ public class GitLogEntryHandler extends AbstractScmLogEntryHandler<Commit> {
 			changeSet = Annotation.AUTHOR.set(changeSet, author);
 		}
 		
-		IConstructor result = callBack(changeSet);
+		callBack(changeSet);
 		
 		todoMerges.clear();
 		return true;
@@ -227,7 +236,7 @@ public class GitLogEntryHandler extends AbstractScmLogEntryHandler<Commit> {
 			changeSet = Annotation.AUTHOR.set(changeSet, author);
 		}
 		
-		IConstructor result = callBack(changeSet);
+		callBack(changeSet);
 	}
 
 	public void handleLogEntryOld(Commit c) {
@@ -360,7 +369,7 @@ public class GitLogEntryHandler extends AbstractScmLogEntryHandler<Commit> {
 			if (author != null) {
 				changeSet = Annotation.AUTHOR.set(changeSet, author);
 			}
-			IConstructor result = callBack(changeSet);
+			callBack(changeSet);
 		}
 		
 		
@@ -422,7 +431,7 @@ public class GitLogEntryHandler extends AbstractScmLogEntryHandler<Commit> {
 		
 		IConstructor revisionChange;
 		if (hasOrigin) {
-			revisionChange = changeType.make(blobRevision, Resource.FILE.make(Scm.createResourceId(repositoryUrl, file.getOriginName())));	
+			revisionChange = changeType.make(blobRevision, Resource.FILE.make(Versions.createResourceId(repositoryUrl, file.getOriginName())));	
 			if (changeStatus instanceof ChangeCodeValue) {
 				try {
 					int percent = Integer.parseInt(((ChangeCodeValue) changeStatus).getStatusValue());
@@ -443,7 +452,7 @@ public class GitLogEntryHandler extends AbstractScmLogEntryHandler<Commit> {
 			revisionChange = Annotation.LINES_REMOVED.set(revisionChange, ScmTypes.VF.integer(linesDeleted));
 		}
 		
-		IConstructor fileResource = Resource.FILE.make(Scm.createResourceId(repositoryUrl, file.getName()));
+		IConstructor fileResource = Resource.FILE.make(Versions.createResourceId(repositoryUrl, file.getName()));
 		
 		return ScmTypes.VF.tuple(fileResource, revisionChange);	
 	}

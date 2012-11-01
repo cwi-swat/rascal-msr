@@ -1,4 +1,15 @@
-package experiments.scm.git;
+/*******************************************************************************
+ * Copyright (c) 2009-2011 CWI
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   * Waruzjan Shahbazian - waruzjan@gmail.com
+ *   * Jurgen J. Vinju - Jurgen.Vinju@cwi.nl - CWI
+*******************************************************************************/
+package resource.versions.git;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -19,21 +30,21 @@ import org.eclipse.imp.pdb.facts.IString;
 import org.eclipse.imp.pdb.facts.IValue;
 import org.eclipse.imp.pdb.facts.IValueFactory;
 import org.rascalmpl.interpreter.result.RascalFunction;
-import experiments.scm.Scm;
-import experiments.scm.ScmProvider;
-import experiments.scm.ScmProviderException;
-import experiments.scm.ScmTypes;
-import experiments.scm.ScmTypes.Annotation;
-import experiments.scm.ScmTypes.CheckoutUnit;
-import experiments.scm.ScmTypes.LogOption;
-import experiments.scm.ScmTypes.Repository;
-import experiments.scm.ScmTypes.Resource;
-import experiments.scm.ScmTypes.Revision;
-import experiments.scm.ScmTypes.RevisionId;
-import experiments.scm.ScmTypes.Sha;
-import experiments.scm.ScmTypes.Tag;
-import experiments.scm.ScmTypes.WcResource;
 
+import resource.versions.ScmProvider;
+import resource.versions.ScmProviderException;
+import resource.versions.ScmTypes;
+import resource.versions.ScmTypes.Annotation;
+import resource.versions.ScmTypes.CheckoutUnit;
+import resource.versions.ScmTypes.LogOption;
+import resource.versions.ScmTypes.Repository;
+import resource.versions.ScmTypes.Resource;
+import resource.versions.ScmTypes.Revision;
+import resource.versions.ScmTypes.RevisionId;
+import resource.versions.ScmTypes.Sha;
+import resource.versions.ScmTypes.Tag;
+import resource.versions.ScmTypes.WcResource;
+import resource.versions.Versions;
 import edu.nyu.cs.javagit.api.DotGit;
 import edu.nyu.cs.javagit.api.GitFileSystemObject;
 import edu.nyu.cs.javagit.api.JavaGitConfiguration;
@@ -165,7 +176,7 @@ public class GitProvider implements ScmProvider<GitLogEntryHandler> {
 			if (file.isDirectory()) {
 				seekEntries(file.listFiles(), writer);
 			} else {
-				IConstructor resource = WcResource.RESOURCE.make(Resource.FILE.make(ScmTypes.VF.sourceLocation(Scm.encodePath(file.getPath()))));
+				IConstructor resource = WcResource.RESOURCE.make(Resource.FILE.make(ScmTypes.VF.sourceLocation(Versions.encodePath(file.getPath()))));
 				writer.insert(resource);
 			}
 		}
@@ -182,7 +193,7 @@ public class GitProvider implements ScmProvider<GitLogEntryHandler> {
 			for (GitFileSystemObject gitFile : tree) {
 				files[i++] = gitFile.getFile();
 			}
-			ISourceLocation id = ScmTypes.VF.sourceLocation(Scm.encodePath(workingTree.getPath().getAbsolutePath()));
+			ISourceLocation id = ScmTypes.VF.sourceLocation(Versions.encodePath(workingTree.getPath().getAbsolutePath()));
 			ISetWriter entriesWriter = ScmTypes.VF.setWriter(WcResource.getAbstractType());
 			
 			seekEntries(files, entriesWriter);

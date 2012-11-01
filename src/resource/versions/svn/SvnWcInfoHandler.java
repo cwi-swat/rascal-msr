@@ -1,4 +1,15 @@
-package experiments.scm.svn;
+/*******************************************************************************
+ * Copyright (c) 2009-2011 CWI
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   * Waruzjan Shahbazian - waruzjan@gmail.com
+ *   * Jurgen J. Vinju - Jurgen.Vinju@cwi.nl - CWI
+*******************************************************************************/
+package resource.versions.svn;
 
 import org.eclipse.imp.pdb.facts.IConstructor;
 import org.eclipse.imp.pdb.facts.IDateTime;
@@ -10,13 +21,13 @@ import org.tmatesoft.svn.core.SVNNodeKind;
 import org.tmatesoft.svn.core.wc.ISVNInfoHandler;
 import org.tmatesoft.svn.core.wc.SVNInfo;
 
-import experiments.scm.Scm;
-import experiments.scm.ScmTypes;
-import experiments.scm.ScmTypes.Info;
-import experiments.scm.ScmTypes.Resource;
-import experiments.scm.ScmTypes.Revision;
-import experiments.scm.ScmTypes.RevisionId;
-import experiments.scm.ScmTypes.WcResource;
+import resource.versions.ScmTypes;
+import resource.versions.Versions;
+import resource.versions.ScmTypes.Info;
+import resource.versions.ScmTypes.Resource;
+import resource.versions.ScmTypes.Revision;
+import resource.versions.ScmTypes.RevisionId;
+import resource.versions.ScmTypes.WcResource;
 
 public class SvnWcInfoHandler implements ISVNInfoHandler {
 	
@@ -34,7 +45,7 @@ public class SvnWcInfoHandler implements ISVNInfoHandler {
 		
 		Resource resType = isDir ? Resource.FOLDER : Resource.FILE;
 		
-		ISourceLocation id = ScmTypes.VF.sourceLocation(Scm.encodePath(Scm.encodePath(info.getFile().getAbsolutePath())));
+		ISourceLocation id = ScmTypes.VF.sourceLocation(Versions.encodePath(Versions.encodePath(info.getFile().getAbsolutePath())));
 		IDateTime datetime = ScmTypes.VF.datetime(info.getCommittedDate().getTime());
 		IConstructor revision = Revision.REVISION.make(RevisionId.ID.make(revNumber));
 		

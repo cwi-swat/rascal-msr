@@ -1,4 +1,15 @@
-package experiments.scm.svn;
+/*******************************************************************************
+ * Copyright (c) 2009-2011 CWI
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   * Waruzjan Shahbazian - waruzjan@gmail.com
+ *   * Jurgen J. Vinju - Jurgen.Vinju@cwi.nl - CWI
+*******************************************************************************/
+package resource.versions.svn;
 
 import java.io.File;
 import java.net.URI;
@@ -26,14 +37,14 @@ import org.tmatesoft.svn.core.wc.SVNRevision;
 import org.tmatesoft.svn.core.wc.SVNUpdateClient;
 import org.tmatesoft.svn.core.wc.SVNWCClient;
 
-import experiments.scm.ScmProvider;
-import experiments.scm.ScmProviderException;
-import experiments.scm.ScmTypes;
-import experiments.scm.ScmTypes.CheckoutUnit;
-import experiments.scm.ScmTypes.LogOption;
-import experiments.scm.ScmTypes.Repository;
-import experiments.scm.ScmTypes.Revision;
-import experiments.scm.ScmTypes.RevisionId;
+import resource.versions.ScmProvider;
+import resource.versions.ScmProviderException;
+import resource.versions.ScmTypes;
+import resource.versions.ScmTypes.CheckoutUnit;
+import resource.versions.ScmTypes.LogOption;
+import resource.versions.ScmTypes.Repository;
+import resource.versions.ScmTypes.Revision;
+import resource.versions.ScmTypes.RevisionId;
 
 public class SvnProvider implements ScmProvider<SvnLogEntryHandler> {
 	
@@ -143,16 +154,16 @@ public class SvnProvider implements ScmProvider<SvnLogEntryHandler> {
 	}
 	
 	private SVNURL createSvnUrl(IConstructor connection, String module) throws SVNException {
-		String repositoryUrl = ScmTypes.Connection.getUrl(connection).getValue();
-		if (repositoryUrl.startsWith("/")) {
-			repositoryUrl = "file://" + repositoryUrl;
-		}
-		if (repositoryUrl.endsWith("/")) {
-			repositoryUrl += module;
-		} else if (module.length() > 0) {
-			repositoryUrl += "/" + module;
-		}
-		return SVNURL.parseURIDecoded(repositoryUrl);
+	  String repositoryUrl = ScmTypes.Connection.getUrl(connection).getValue();
+    if (repositoryUrl.startsWith("/")) {
+      repositoryUrl = "file://" + repositoryUrl;
+    }
+    if (repositoryUrl.endsWith("/")) {
+      repositoryUrl += module;
+    } else if (module.length() > 0) {
+      repositoryUrl += "/" + module;
+    }
+    return SVNURL.parseURIDecoded(repositoryUrl);
 	}
 	
 	private SVNRepository createConnection(IConstructor repositoryConfig) throws ScmProviderException {

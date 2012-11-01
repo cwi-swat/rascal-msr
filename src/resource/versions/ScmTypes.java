@@ -1,4 +1,15 @@
-package experiments.scm;
+/*******************************************************************************
+ * Copyright (c) 2009-2011 CWI
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   * Waruzjan Shahbazian - waruzjan@gmail.com
+ *   * Jurgen J. Vinju - Jurgen.Vinju@cwi.nl - CWI
+*******************************************************************************/
+package resource.versions;
 
 
 import org.eclipse.imp.pdb.facts.IConstructor;
@@ -14,9 +25,11 @@ import org.eclipse.imp.pdb.facts.IValueFactory;
 import org.eclipse.imp.pdb.facts.type.Type;
 import org.eclipse.imp.pdb.facts.type.TypeFactory;
 import org.eclipse.imp.pdb.facts.type.TypeStore;
+import resource.versions.ScmEntryChangeKind;
+import resource.versions.ScmTypes;
 import org.rascalmpl.values.ValueFactoryFactory;
 
-import experiments.scm.ScmEntryChangeKind.ChangeCode;
+import resource.versions.ScmEntryChangeKind.ChangeCode;
 
 public interface ScmTypes {
 	public static final TypeFactory TF = TypeFactory.getInstance();
@@ -198,20 +211,20 @@ public interface ScmTypes {
 	}
 	
 	public enum Repository {
-		CVS("cvs", 
-			Connection.getAbstractType(), "conn",
-			TF.stringType(), "mod",
-			TF.sourceLocationType(), "workspace",
-			TF.setType(LogOption.getAbstractType()), "options"),
-		SVN("svn", 
-			Connection.getAbstractType(), "conn",
-			TF.stringType(), "mod",
-			TF.sourceLocationType(), "workspace",
-			TF.setType(LogOption.getAbstractType()), "options"),
 		GIT("git", 
 			Connection.getAbstractType(), "conn",
 			TF.stringType(), "mod",
-			TF.setType(LogOption.getAbstractType()), "options");
+			TF.setType(LogOption.getAbstractType()), "options"),
+	  CVS("cvs", 
+      Connection.getAbstractType(), "conn",
+      TF.stringType(), "mod",
+      TF.sourceLocationType(), "workspace",
+      TF.setType(LogOption.getAbstractType()), "options"),
+	  SVN("svn", 
+	      Connection.getAbstractType(), "conn",
+	      TF.stringType(), "mod",
+	      TF.sourceLocationType(), "workspace",
+	      TF.setType(LogOption.getAbstractType()), "options");
 		
 		private final Type type;
 		
@@ -252,7 +265,6 @@ public interface ScmTypes {
 		public static ISet getOptions(IConstructor repository) {
 			return (ISet) repository.get("options");
 		}
-
 	}
 	
 	public enum LogOption {
