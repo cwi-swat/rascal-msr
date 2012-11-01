@@ -1,3 +1,0 @@
-Copyright CWI 2010-2011
-
-This code is open source. It uses several libraries for accessing CVS, SVN and GIT repositories which are also open-source. We still need to review which license this library will have, but it appears to be GPL-ish due to the use of GPL libraries.
