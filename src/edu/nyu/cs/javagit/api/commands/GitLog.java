@@ -20,13 +20,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import resource.versions.ScmLogEntryHandler;
 import edu.nyu.cs.javagit.api.JavaGitException;
 import edu.nyu.cs.javagit.api.commands.GitLogResponse.Commit;
 import edu.nyu.cs.javagit.client.ClientManager;
 import edu.nyu.cs.javagit.client.IClient;
 import edu.nyu.cs.javagit.client.IGitLog;
 import edu.nyu.cs.javagit.utilities.CheckUtilities;
-import experiments.scm.ScmLogEntryHandler;
 /**
  * 	<code>GitLog</code> provides an interface to retrieve logs from a git
  * 	repository
@@ -52,7 +52,7 @@ public final class GitLog {
 	 */
 	public List<Commit> log(File repositoryPath, GitLogOptions options, ScmLogEntryHandler<Commit> handler) throws JavaGitException, IOException{
 		CheckUtilities.checkNullArgument(repositoryPath, "repository");
-	    
+	     
 	    IClient client = ClientManager.getInstance().getPreferredClient();
 	    IGitLog gitLog = client.getGitLogInstance();
 	    return gitLog.log(repositoryPath, options, handler);

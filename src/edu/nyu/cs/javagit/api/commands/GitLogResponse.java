@@ -19,8 +19,8 @@ package edu.nyu.cs.javagit.api.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import resource.versions.ScmEntryChangeKind;
 import edu.nyu.cs.javagit.utilities.CheckUtilities;
-import experiments.scm.ScmEntryChangeKind;
 
 /**
  * 	A response data object for the git log command.

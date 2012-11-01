@@ -22,6 +22,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import resource.versions.ScmEntryChangeKind;
+import resource.versions.ScmEntryChangeKind.GitChangeKind;
+import resource.versions.ScmLogEntryHandler;
 import edu.nyu.cs.javagit.api.JavaGitConfiguration;
 import edu.nyu.cs.javagit.api.JavaGitException;
 import edu.nyu.cs.javagit.api.commands.CommandResponse;
@@ -31,9 +34,6 @@ import edu.nyu.cs.javagit.api.commands.GitLogResponse.Commit;
 import edu.nyu.cs.javagit.api.commands.GitLogResponse.CommitFile;
 import edu.nyu.cs.javagit.client.IGitLog;
 import edu.nyu.cs.javagit.utilities.CheckUtilities;
-import experiments.scm.ScmEntryChangeKind;
-import experiments.scm.ScmEntryChangeKind.GitChangeKind;
-import experiments.scm.ScmLogEntryHandler;
 
 /**
  * Command-line implementation of the <code>IGitLog</code> interface.

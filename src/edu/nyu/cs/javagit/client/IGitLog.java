@@ -20,10 +20,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import resource.versions.ScmLogEntryHandler;
 import edu.nyu.cs.javagit.api.JavaGitException;
 import edu.nyu.cs.javagit.api.commands.GitLogOptions;
 import edu.nyu.cs.javagit.api.commands.GitLogResponse.Commit;
-import experiments.scm.ScmLogEntryHandler;
 
 /**
  * An interface to represent the git log command.
