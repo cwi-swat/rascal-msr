@@ -1,4 +1,4 @@
-module LinuxKernel
+module experiments::LinuxKernel
 
 import ValueIO;
 import IO;
@@ -11,8 +11,8 @@ import Graph;
 import String;
 import Real;
 
-import experiments::scm::Scm;
-import experiments::scm::Timer;
+import resource::versions::Versions;
+import resource::versions::Timer;
 
 data infoActions = anyAction() | actions(set[str] actions) 
 	| notActions(set[str] actions);

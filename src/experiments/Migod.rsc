@@ -1,4 +1,4 @@
-module migod
+module Migod
 
 // Libs
 import List;
@@ -6,11 +6,11 @@ import Set;
 import IO;
 
 // Locals
-import Statistics;
-import experiments::scm::Scm;
-import experiments::scm::git::Git;
-import experiments::scm::svn::Svn;
-import experiments::scm::cvs::Cvs;
+import experiments::Statistics;
+import resource::versions::Versions;
+import resource::versions::git::Git;
+import resource::versions::svn::Svn;
+import resource::versions::cvs::Cvs;
 
 // Some constants
 public str homeDir = "/Users/migod";

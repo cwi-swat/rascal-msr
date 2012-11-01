@@ -1,4 +1,4 @@
-module Main
+module experiments::Main
 
 import IO;
 import List;
@@ -10,12 +10,11 @@ import ValueIO;
 import Node;
 import String;
 
-import experiments::scm::Scm;
-import experiments::scm::git::Git;
-import experiments::scm::Timer;
+import resource::versions::Versions;
+import resource::versions::git::Git;
+import resource::versions::Timer;
 
-import LinuxKernel;
-import Scm;
+import experiments::LinuxKernel;
 
 public bool md = true;
 

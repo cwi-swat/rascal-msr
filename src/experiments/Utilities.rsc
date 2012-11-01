@@ -1,9 +1,9 @@
-module Utilities
+module experiments::Utilities
 
 import Set;
 import List;
 import IO;
-import experiments::scm::Timer;
+import resource::versions::Timer;
 
 public list[int] calcAvg(set[list[int]] input) {
     map[int column, int total] totals = ();

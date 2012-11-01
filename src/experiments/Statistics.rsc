@@ -1,14 +1,14 @@
-module Statistics
+module experiments::Statistics
 
 import Utilities;
 import ValueIO;
 import DateTime;
 import IO;
-import experiments::scm::Scm;
-import experiments::scm::cvs::Cvs;
-import experiments::scm::svn::Svn;
-import experiments::scm::git::Git;
-import experiments::scm::Timer;
+import resource::versions::Versions;
+import resource::versions::cvs::Cvs;
+import resource::versions::svn::Svn;
+import resource::versions::git::Git;
+import resource::versions::Timer;
 import DateTime;
 import List;
 import Map;

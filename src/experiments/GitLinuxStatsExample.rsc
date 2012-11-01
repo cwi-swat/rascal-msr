@@ -1,9 +1,9 @@
-module GitLinuxStatsExample
+module experiments::GitLinuxStatsExample
 
-import Utilities;
-import Statistics;
-import experiments::scm::Scm;
-import experiments::scm::git::Git;
+import experiments::Utilities;
+import experiments::Statistics;
+import resource::versions::Versions;
+import resource::versions::git::Git;
 
 import DateTime;
 import List;

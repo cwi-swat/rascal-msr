@@ -1,13 +1,13 @@
-module ChangeSetRecovery
+module experiments::ChangeSetRecovery
 
 import Set;
 import IO;
-import Utilities;
+import experiments::Utilities;
 
-import experiments::scm::Scm;
-import experiments::scm::svn::Svn;
-import experiments::scm::cvs::Cvs;
-import experiments::scm::Timer;
+import resource::versions::Versions;
+import resource::versions::svn::Svn;
+import resource::versions::cvs::Cvs;
+import resource::versions::Timer;
 
 public tuple[rel[Info committer, Resource resource, RevisionChange change, 
        set[Tag] tags], 

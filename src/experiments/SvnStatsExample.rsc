@@ -1,9 +1,9 @@
-module SvnStatsExample
+module experiments::SvnStatsExample
 
 import Utilities;
 import Statistics;
-import experiments::scm::Scm;
-import experiments::scm::svn::Svn;
+import resource::versions::Versions;
+import resource::versions::svn::Svn;
 
 import DateTime;
 import List;

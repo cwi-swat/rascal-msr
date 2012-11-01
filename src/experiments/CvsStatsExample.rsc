@@ -3,8 +3,8 @@ module CvsStatsExample
 import ChangeSetRecovery;
 import Utilities;
 import Statistics;
-import experiments::scm::Scm;
-import experiments::scm::cvs::Cvs;
+import resource::versions::Versions;
+import resource::versions::cvs::Cvs;
 
 
 import DateTime;
