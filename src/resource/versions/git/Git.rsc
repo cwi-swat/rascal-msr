@@ -8,7 +8,7 @@
 @contributor{Jurgen J. Vinju - Jurgen.Vinju@cwi.nl - CWI}
 @contributor{Waruzjan Shahbazian - waruzjan@gmail.com}
 module resource::versions::git::Git
-import resource::versions::Scm;
+import resource::versions::Versions;
 
 data Repository = git(Connection conn, str \mod, set[LogOption] options);
 
