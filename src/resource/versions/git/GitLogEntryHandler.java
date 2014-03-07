@@ -18,7 +18,6 @@ import java.util.Set;
 
 import org.eclipse.imp.pdb.facts.IConstructor;
 import org.eclipse.imp.pdb.facts.IListWriter;
-import org.eclipse.imp.pdb.facts.IRelationWriter;
 import org.eclipse.imp.pdb.facts.ISet;
 import org.eclipse.imp.pdb.facts.ISetWriter;
 import org.eclipse.imp.pdb.facts.ITuple;
@@ -164,7 +163,7 @@ public class GitLogEntryHandler extends AbstractScmLogEntryHandler<Commit> {
 				System.err.println("The merge origin '" + mergeOrigin + "' was not in the mergeDetails list: '" + mergeDetails + "'");
 			}
 			IConstructor mergeOriginRevision = Revision.REVISION.make(RevisionId.HASH.make(Sha.COMMIT.make(mergeOrigin)));
-			IRelationWriter resources = ScmTypes.VF.relationWriter(RESOURCE_CHANGE);
+			ISetWriter resources = ScmTypes.VF.relationWriter(RESOURCE_CHANGE);
 			for (CommitFile file : mergeCommit.getFiles()) {
 				resources.insert(processCommitFile(file));
 			}
@@ -213,7 +212,7 @@ public class GitLogEntryHandler extends AbstractScmLogEntryHandler<Commit> {
 			committer = Info.makeInfo(Info.getDate(author), Info.getAuthorName(author).getValue(), c.getMessage());
 		}
 		
-		IRelationWriter resources = ScmTypes.VF.relationWriter(RESOURCE_CHANGE);
+		ISetWriter resources = ScmTypes.VF.relationWriter(RESOURCE_CHANGE);
 		if (c.getFiles() != null) {
 			for (CommitFile file : c.getFiles()) {
 				resources.insert(processCommitFile(file));
@@ -351,7 +350,7 @@ public class GitLogEntryHandler extends AbstractScmLogEntryHandler<Commit> {
 			}
 			todoMerges.add(c);
 		} else {
-			IRelationWriter resources = ScmTypes.VF.relationWriter(RESOURCE_CHANGE);
+			ISetWriter resources = ScmTypes.VF.relationWriter(RESOURCE_CHANGE);
 			if (c.getFiles() != null) {
 				for (CommitFile file : c.getFiles()) {
 					resources.insert(processCommitFile(file));

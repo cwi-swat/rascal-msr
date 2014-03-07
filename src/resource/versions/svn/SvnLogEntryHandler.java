@@ -16,8 +16,8 @@ import java.util.Map;
 import org.eclipse.imp.pdb.facts.IConstructor;
 import org.eclipse.imp.pdb.facts.IDateTime;
 import org.eclipse.imp.pdb.facts.IListWriter;
-import org.eclipse.imp.pdb.facts.IRelationWriter;
 import org.eclipse.imp.pdb.facts.ISet;
+import org.eclipse.imp.pdb.facts.ISetWriter;
 import org.eclipse.imp.pdb.facts.IValue;
 import org.rascalmpl.interpreter.result.RascalFunction;
 import org.tmatesoft.svn.core.ISVNLogEntryHandler;
@@ -78,7 +78,7 @@ public class SvnLogEntryHandler extends AbstractScmLogEntryHandler<SVNLogEntry> 
   private void handleLogEntry(IConstructor revision, SVNLogEntry logEntry) {
     lastRevisionId = Revision.getId(revision);
     IDateTime datetime = ScmTypes.VF.datetime(logEntry.getDate().getTime());
-    IRelationWriter resources = ScmTypes.VF.relationWriter(ScmTypes.TF.tupleType(ScmTypes.Resource.getAbstractType(),
+    ISetWriter resources = ScmTypes.VF.relationWriter(ScmTypes.TF.tupleType(ScmTypes.Resource.getAbstractType(),
         ScmTypes.RevisionChange.getAbstractType()));
 
     @SuppressWarnings("unchecked")

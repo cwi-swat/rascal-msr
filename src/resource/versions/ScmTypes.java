@@ -16,7 +16,7 @@ import org.eclipse.imp.pdb.facts.IConstructor;
 import org.eclipse.imp.pdb.facts.IDateTime;
 import org.eclipse.imp.pdb.facts.IInteger;
 import org.eclipse.imp.pdb.facts.IList;
-import org.eclipse.imp.pdb.facts.IRelation;
+//import org.eclipse.imp.pdb.facts.IRelation;
 import org.eclipse.imp.pdb.facts.ISet;
 import org.eclipse.imp.pdb.facts.ISourceLocation;
 import org.eclipse.imp.pdb.facts.IString;
@@ -59,15 +59,15 @@ public interface ScmTypes {
 		}
 		
 		public boolean has(IConstructor constructor) {
-			return constructor.hasAnnotation(label);
+			return constructor.declaresAnnotation(store, label) && (constructor.asAnnotatable().getAnnotation(label) != null);
 		}
 		
 		public <E extends IValue> E get(IConstructor constructor, Class<E> type) {
-			return type.cast(constructor.getAnnotation(label));
+			return type.cast(constructor.declaresAnnotation(store, label));
 		}
 		
 		public IConstructor set(IConstructor constructor, IValue annotation) {
-			return constructor.setAnnotation(label, annotation);
+			return constructor.asAnnotatable().setAnnotation(label, annotation);
 		}
 	}
 		
@@ -127,7 +127,7 @@ public interface ScmTypes {
 		}
 		
 		public IConstructor make(IConstructor repository,  IList changeSets) {
-			return (IConstructor)  type.make(VF, repository, changeSets);
+			return VF.constructor(type, repository, changeSets);
 		}
 	}
 	
@@ -344,7 +344,7 @@ public interface ScmTypes {
 		}
 		
 		public IConstructor make(String name) {
-			return (IConstructor)  type.make(VF, VF.string(name));
+			return VF.constructor(type, VF.string(name));
 		}
 	}
 
@@ -373,7 +373,7 @@ public interface ScmTypes {
 		}
 		
 		public IConstructor make(String sha) {
-			return (IConstructor)  type.make(VF, VF.string(sha));
+			return VF.constructor(type, VF.string(sha));
 		}
 	}
 	
@@ -412,15 +412,15 @@ public interface ScmTypes {
 		}
 		
 		public IConstructor make(long id) {
-			return (IConstructor)  type.make(VF, VF.integer(id));
+			return VF.constructor(type, VF.integer(id));
 		}
 		
 		public IConstructor make(String number) {
-			return (IConstructor) type.make(VF, VF.string(number));
+			return VF.constructor(type, VF.string(number));
 		}
 		
 		public IConstructor make(IConstructor sha) {
-			return (IConstructor) type.make(VF, sha);
+			return VF.constructor(type, sha);
 		}
 	}
 	
@@ -464,7 +464,7 @@ public interface ScmTypes {
 		}
 		
 		public IConstructor make(IDateTime date) {
-			return (IConstructor) type.make(VF, date);
+			return VF.constructor(type, date);
 		}
 		
 		/**
@@ -472,11 +472,11 @@ public interface ScmTypes {
 		 * @param arg can be author or message
 		 */
 		public IConstructor make(IDateTime date, String arg) {
-			return (IConstructor) type.make(VF, date, VF.string(arg));
+			return VF.constructor(type, date, VF.string(arg));
 		}
 		
 		public IConstructor make(IDateTime date, String authorName, String message) {
-			return (IConstructor) type.make(VF, date, VF.string(authorName), VF.string(message));
+			return VF.constructor(type, date, VF.string(authorName), VF.string(message));
 		}
 		
 		public static IConstructor makeInfo(IDateTime datetime, String authorName, String message) {
@@ -528,7 +528,7 @@ public interface ScmTypes {
 		 * @param id of type {@link RevisionId}
 		 */
 		public IConstructor make(IConstructor id) {
-			return (IConstructor) type.make(VF, id);
+			return VF.constructor(type, id);
 		}
 		
 		/**
@@ -536,7 +536,7 @@ public interface ScmTypes {
 		 * @param parent of type {@link Revision}
 		 */
 		public IConstructor make(IConstructor id, IConstructor parent) {
-			return (IConstructor) type.make(VF, id, parent);
+			return VF.constructor(type, id, parent);
 		}		
 	}
 	
@@ -621,15 +621,15 @@ public interface ScmTypes {
 		}
 		
 		public IConstructor make() {
-			return (IConstructor) type.make(VF);
+			return VF.constructor(type);
 		}
 		
 		public IConstructor make(IConstructor revision) {
-			return (IConstructor) type.make(VF, revision);
+			return VF.constructor(type, revision);
 		}
 		
 		public IConstructor make(IConstructor revision, IConstructor origin) {
-			return (IConstructor) type.make(VF, revision, origin);
+			return VF.constructor(type, revision, origin);
 		}
 		
 //		public IConstructor make(IConstructor revisionId, IInteger linesAdded, IInteger linesRemoved) {
@@ -699,11 +699,11 @@ public interface ScmTypes {
 		}
 
 		public IConstructor make(ISourceLocation id) {
-			return (IConstructor) type.make(VF, id);
+			return VF.constructor(type, id);
 		}
 		
 		public IConstructor make(ISourceLocation id, ISet content) {
-			return (IConstructor) type.make(VF, id, content);
+			return VF.constructor(type, id, content);
 		}
 	}
 	
@@ -749,16 +749,16 @@ public interface ScmTypes {
 		 * Only available on the type {@link ChangeSet#RESOURCE}
 		 * @return the revisions of the resource as an relation between {@link RevisionChange} and {@link Info}.
 		 */
-		public IRelation getRevisions(IConstructor changeSet) {
-			return (IRelation) changeSet.get("revisions");
+		public ISet getRevisions(IConstructor changeSet) {
+			return (ISet) changeSet.get("revisions");
 		}
 
 		/**
 		 * Only available on the type {@link ChangeSet#RESOURCE}
 		 * @return the relation between {@link Revision}s and {@link Tag}s.
 		 */
-		public IRelation getRevTags(IConstructor changeSet) {
-			return (IRelation) changeSet.get("revTags");
+		public ISet getRevTags(IConstructor changeSet) {
+			return (ISet) changeSet.get("revTags");
 		}
 
 		
@@ -774,8 +774,8 @@ public interface ScmTypes {
 		 * Available on the type {@link ChangeSet#CHANGE_SET}
 		 * @return the resources (in relation with the {@link RevisionChange}) in the changeset.
 		 */
-		public IRelation getResources(IConstructor changeSet) {
-			return (IRelation) changeSet.get("resources");
+		public ISet getResources(IConstructor changeSet) {
+			return (ISet) changeSet.get("resources");
 		}
 
 		/**
@@ -801,21 +801,21 @@ public interface ScmTypes {
 		/**
 		 * @return an ChangeSet of type {@link ChangeSet#RESOURCE}
 		 */
-		public IConstructor make(IConstructor resource, IRelation revisions, IRelation revTags) {
-			return (IConstructor) getType().make(VF, resource, revisions, revTags);
+		public IConstructor make(IConstructor resource, ISet revisions, ISet revTags) {
+			return VF.constructor(type, resource, revisions, revTags);
 		}
 		
 		/**
 		 * @return an ChangeSet of type {@link ChangeSet#CHANGE_SET}
 		 */
-		public IConstructor make(IConstructor revision, IRelation resources, IConstructor committer) {
-			return (IConstructor) getType().make(VF, revision, resources, committer);
+		public IConstructor make(IConstructor revision, ISet resources, IConstructor committer) {
+			return VF.constructor(type, revision, resources, committer);
 		}
 		
 		/**
 		 * @return an ChangeSet of type {@link ChangeSet#CHANGE_SET_BLOB}
 		 */
-		public IConstructor make(IConstructor revision, IRelation resources, IConstructor committer, IConstructor author) {
+		public IConstructor make(IConstructor revision, ISet resources, IConstructor committer, IConstructor author) {
 			IConstructor changeSet = make(revision, resources, committer);
 			return  Annotation.AUTHOR.set(changeSet, author);
 		}
@@ -867,11 +867,11 @@ public interface ScmTypes {
 		}
 		
 		public IConstructor make(IConstructor arg) {
-			return (IConstructor) type.make(VF, arg);
+			return VF.constructor(type, arg);
 		}
 				
 		public IConstructor make(IDateTime date) {
-			return (IConstructor) type.make(VF, date);
+			return VF.constructor(type, date);
 		}
 	}
 
@@ -920,15 +920,15 @@ public interface ScmTypes {
 		}
 		
 		public IConstructor make(IConstructor resource) {
-			return (IConstructor) type.make(VF, resource);
+			return VF.constructor(type, resource);
 		}
 				
 		public IConstructor make(IConstructor resource, IConstructor revision) {
-			return (IConstructor) type.make(VF, resource, revision);
+			return VF.constructor(type, resource, revision);
 		}
 		
 		public IConstructor make(IConstructor resource, IConstructor revision, IConstructor info) {
-			return (IConstructor) type.make(VF, resource, revision, info);
+			return VF.constructor(type, resource, revision, info);
 		}
 	}
 	
@@ -957,16 +957,16 @@ public interface ScmTypes {
 			return (IList) mergeDetails.get("parent");
 		}
 		
-		public static IRelation getResources(IConstructor mergeDetails) {
-			return (IRelation) mergeDetails.get("resources");
+		public static ISet getResources(IConstructor mergeDetails) {
+			return (ISet) mergeDetails.get("resources");
 		}
 		
 		public IConstructor make(IConstructor parent) {
-			return (IConstructor) type.make(VF, parent);
+			return VF.constructor(type, parent);
 		}
 		
-		public IConstructor make(IConstructor parent, IRelation resources) {
-			return (IConstructor) type.make(VF, parent, resources);
+		public IConstructor make(IConstructor parent, ISet resources) {
+			return VF.constructor(type, parent, resources);
 		}
 		
 	}

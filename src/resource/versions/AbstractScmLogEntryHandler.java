@@ -42,7 +42,7 @@ public abstract class AbstractScmLogEntryHandler<E> implements ScmLogEntryHandle
 		if (factExtractor != null) {
 			Type argumentTypes = factExtractor.getFunctionType().getArgumentTypes();
 	    	Type fieldType = argumentTypes.getFieldType(0);
-	    	changeSet = (IConstructor) factExtractor.call(new Type[] {fieldType}, new IValue[] {changeSet}).getValue();
+	    	changeSet = (IConstructor) factExtractor.call(new Type[] {fieldType}, new IValue[] {changeSet}, null).getValue();
 		}
     	
     	return changeSet;

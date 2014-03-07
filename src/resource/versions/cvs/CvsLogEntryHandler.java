@@ -19,7 +19,7 @@ import java.util.List;
 
 import org.eclipse.imp.pdb.facts.IConstructor;
 import org.eclipse.imp.pdb.facts.IListWriter;
-import org.eclipse.imp.pdb.facts.IRelationWriter;
+//import org.eclipse.imp.pdb.facts.IRelationWriter;
 import org.eclipse.imp.pdb.facts.ISetWriter;
 import org.eclipse.imp.pdb.facts.ISourceLocation;
 import org.netbeans.lib.cvsclient.command.FileInfoContainer;
@@ -71,8 +71,8 @@ public class CvsLogEntryHandler extends AbstractScmLogEntryHandler<LogInformatio
 		ISourceLocation sourceLocation = ScmTypes.VF.sourceLocation(workspace + Versions.encodePath(fileName));
 	
 		IConstructor resource = Resource.FILE.make(sourceLocation);
-		IRelationWriter revisions = ScmTypes.VF.relationWriter(ScmTypes.TF.tupleType(ScmTypes.RevisionChange.getAbstractType(), ScmTypes.Info.getAbstractType()));
-		IRelationWriter revTags = ScmTypes.VF.relationWriter(ScmTypes.TF.tupleType(ScmTypes.Revision.getAbstractType(), ScmTypes.Tag.getAbstractType()));
+		ISetWriter revisions = ScmTypes.VF.relationWriter(ScmTypes.TF.tupleType(ScmTypes.RevisionChange.getAbstractType(), ScmTypes.Info.getAbstractType()));
+		ISetWriter revTags = ScmTypes.VF.relationWriter(ScmTypes.TF.tupleType(ScmTypes.Revision.getAbstractType(), ScmTypes.Tag.getAbstractType()));
 		
 		@SuppressWarnings("unchecked")
 		List<Revision> revisionList = (List<Revision>) logInfo.getRevisionList();
