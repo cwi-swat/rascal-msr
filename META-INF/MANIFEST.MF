@@ -1,13 +1,13 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: rascal-msr
-Bundle-SymbolicName: rascal-msr
+Bundle-SymbolicName: rascal-msr;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-ClassPath: rascal-msr.jar,
- lib/org-netbeans-lib-cvsclient-RELEASE61.jar,
+Bundle-ClassPath: lib/org-netbeans-lib-cvsclient-RELEASE61.jar,
  lib/svnkit.jar,
  lib/trilead.jar,
- lib/joda-time-1.6.jar
+ lib/joda-time-1.6.jar,
+ .
 Export-Package: com.trilead.ssh2,
  com.trilead.ssh2.auth,
  com.trilead.ssh2.channel,
@@ -88,7 +88,12 @@ Export-Package: com.trilead.ssh2,
  org.tmatesoft.svn.core.wc.xml,
  org.tmatesoft.svn.core.wc.xml.dtd,
  org.tmatesoft.svn.core.wc.xml.schema,
- org.tmatesoft.svn.util
-Require-Bundle: org.eclipse.imp.pdb.values;bundle-version="0.2.5",
- rascal;bundle-version="0.3.2",
- org.junit;bundle-version="4.8.2"
+ org.tmatesoft.svn.util,
+ resource.versions,
+ resource.versions.cvs,
+ resource.versions.git,
+ resource.versions.svn
+Require-Bundle: org.eclipse.imp.pdb.values,
+ rascal,
+ org.junit
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
