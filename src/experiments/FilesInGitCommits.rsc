@@ -1,15 +1,13 @@
-module workingexperiments::FilesInGitCommits
+module experiments::FilesInGitCommits
 
 import resource::versions::Versions;
 import resource::versions::git::Git;
 
 import List;
 
-import advtrack::LOC::FileLOC;
-
 import IO;
 
-str gitLoc = "/home/kevin/src/HelloWorldGitDemo/";
+str gitLoc = "/Users/shahi/Documents/CWI/l1_workspace/pdb.values/";
 
 public void main() {
 	// Create a 'Connection' datatype.
