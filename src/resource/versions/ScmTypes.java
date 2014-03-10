@@ -64,7 +64,6 @@ public interface ScmTypes {
 		
 		public <E extends IValue> E get(IConstructor constructor, Class<E> type) {
 			return type.cast(constructor.asAnnotatable().getAnnotation(label));
-//			return type.cast(constructor.declaresAnnotation(store, label));
 		}
 		
 		public IConstructor set(IConstructor constructor, IValue annotation) {
