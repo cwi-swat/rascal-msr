@@ -2,7 +2,6 @@
 *.jar
 *.war
 *.ear
-
 # eclipse stuff
 .metadata
 bin/**
@@ -13,7 +12,5 @@ tmp/**/*
 *.swp
 *~.nib
 local.properties
-.classpath
-.settings/
 .loadpath
 /bin
